@@ -4,12 +4,20 @@ Website tuyển dụng IT và luyện phỏng vấn, chuyển từ giao diện/l
 
 ## Mở bản đang chạy trên máy này
 
-- Website: http://localhost:8080/
-- Đăng nhập: http://localhost:8080/dang-nhap/
-- Quản trị nghiệp vụ: http://localhost:8080/quan-tri/
-- Tài khoản và mật khẩu demo: `runtime/private/demo-accounts.txt` (không đưa vào Git).
+- Website Docker: http://localhost:8081/
+- Đăng nhập Docker: http://localhost:8081/dang-nhap/
+- Quản trị nghiệp vụ Docker: http://localhost:8081/quan-tri/
+- Tài khoản và mật khẩu Docker: `runtime/demo-accounts.txt` (không đưa vào Git).
 
-Docker Desktop trên máy hiện gặp lỗi socket `dockerInference`. Bản đã kiểm thử đang dùng **PHP có sẵn + MariaDB portable riêng**, toàn bộ dữ liệu nằm trong `runtime/` của dự án; không dùng database ATS cũ.
+Docker Desktop hiện hoạt động bình thường. Bản Docker đã cài và kiểm tra trên máy: WordPress 7.1.4, PHP 8.3.36, MariaDB 11.4.13, Docker Engine 29.6.2. Cổng 8081 được chọn để giữ nguyên bản **PHP/MariaDB portable tại 8080** và dữ liệu cũ của bản này. Hai bản có database, CV và tài khoản demo riêng; không tự đồng bộ dữ liệu.
+
+```powershell
+docker compose up -d wordpress
+./scripts/test.ps1
+docker compose stop
+```
+
+Phương án portable dự phòng ở 8080 dùng tài khoản trong `runtime/private/demo-accounts.txt`:
 
 ```powershell
 # Chạy lại sau khi tắt máy
@@ -33,7 +41,7 @@ Nếu PHP ở nơi khác, truyền `-Php 'đường-dẫn-php.exe'` vào các sc
 Cần Docker Desktop với Linux engine đang hoạt động. Chạy tại thư mục dự án bằng PowerShell 7:
 
 ```powershell
-./scripts/setup.ps1
+./scripts/setup.ps1 -Port 8081
 ./scripts/test.ps1
 docker compose stop
 docker compose up -d wordpress
@@ -41,9 +49,9 @@ docker compose up -d wordpress
 
 Setup tự tạo mật khẩu database, cài WordPress, kích hoạt theme/plugin, tạo tài khoản và dữ liệu demo. Chạy lại không tạo trùng dữ liệu. Mật khẩu tài khoản được sao chép vào `runtime/demo-accounts.txt` ở host; bản trong container nằm ngoài webroot.
 
-Docker chỉ công khai cổng web trên `127.0.0.1`; database không xuất cổng. Không chạy bản portable và Docker cùng cổng 8080. Đổi `TECHJOB_PORT` trong `.env` trước khi cài nếu cần cổng khác; truyền cùng cổng vào `setup.ps1 -Port ...`.
+Docker chỉ công khai cổng web trên `127.0.0.1`; database không xuất cổng. Không chạy bản portable và Docker cùng một cổng. `setup.ps1 -Port ...` cập nhật cổng trong `.env`; khi bỏ qua tham số, script dùng cổng đã lưu.
 
-Compose đã kiểm tra cú pháp; **chưa chạy được container trên máy này do lỗi Docker Desktop**, nên chưa coi luồng Docker là đã nghiệm thu.
+Đã chạy cài mới, chạy lại setup không tạo trùng dữ liệu, khởi động lại container và kiểm tra dữ liệu còn nguyên. Trong Docker đã qua 12 policy checks và 40 integration checks; các trang chính trả HTTP 200.
 
 ## Các chức năng đã chuyển
 

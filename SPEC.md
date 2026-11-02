@@ -26,7 +26,7 @@ Không sửa core/vendor. Validate/sanitize đầu vào, escape đầu ra, nonce
 - docs: ánh xạ, kết quả, audit và ảnh.
 - runtime và backups: dữ liệu local/bí mật, bỏ qua Git.
 
-Docker Compose là cấu hình cài mới. Docker Desktop hiện lỗi socket dockerInference; bản chạy kiểm thử dùng PHP có sẵn và MariaDB portable riêng trong dự án.
+Docker Compose đã được cài và kiểm chứng ở cổng 8081; 52 kiểm tra trong container đã qua. Lỗi socket Docker cũ không còn tái hiện. Bản PHP/MariaDB portable ở 8080 được giữ nguyên làm dự phòng, có database và tài khoản riêng.
 
 ```powershell
 ./scripts/setup.ps1
@@ -38,4 +38,4 @@ Docker Compose là cấu hình cài mới. Docker Desktop hiện lỗi socket do
 
 ## Nghiệm thu và giới hạn
 Kiểm thử luồng ứng viên/Admin, chống trùng, quyền CV/hồ sơ, nonce, trạng thái và lịch, Việt–Anh, demo AI và phục hồi backup. Kết quả thực tế: docs/TEST-RESULTS.md.
-Bản đầu phục vụ đồ án local, chưa hosting/email/SMS/cổng doanh nghiệp/avatar ảnh/kiểm thử tải. Chưa nghiệm thu Gemini thật khi thiếu API key và Docker runtime khi engine còn lỗi. Xem README để chạy và cấu hình.
+Bản đầu phục vụ đồ án local, chưa hosting/email/SMS/cổng doanh nghiệp/avatar ảnh/kiểm thử tải. Chưa nghiệm thu Gemini thật khi thiếu API key . Docker runtime đã được kiểm chứng; xem docs/DOCKER.md. Xem README để chạy và cấu hình.

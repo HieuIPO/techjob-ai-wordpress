@@ -1,6 +1,6 @@
 <?php
 if (!defined('WP_CLI') || !WP_CLI || !function_exists('tj_activate')) { exit; }
-if (get_option('tj_seed_version') === 1) { WP_CLI::success('Demo data already exists; no duplicates created.'); return; }
+if ((int)get_option('tj_seed_version') === 1) { WP_CLI::success('Demo data already exists; no duplicates created.'); return; }
 global $wpdb;
 function tj_seed_pdf(string $name): string {
     $stream = "BT /F1 18 Tf 50 770 Td (TechJob AI - DEMO CV) Tj 0 -36 Td /F1 12 Tf ($name) Tj 0 -28 Td (Fictional candidate. IT recruitment demonstration only.) Tj ET";

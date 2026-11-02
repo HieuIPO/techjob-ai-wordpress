@@ -13,7 +13,7 @@ Lệnh: `./scripts/test.ps1 -Local`.
 - WordPress integration: **40 checks** — vai trò, redirect an toàn, quyền CV, CRUD tin, template chi tiết, consent/chống nộp trùng, snapshot hồ sơ, lịch/kết quả/hủy/đặt lại, demo đủ 5 câu, giới hạn lượt và quyền phiên.
 - HTTP: **19 checks** — homepage/CSS/Anh, đăng ký/đăng nhập, lưu profile, chặn URL admin/CV/hồ sơ người khác, nonce sai, PDF giả/hợp lệ, tải CV, ứng tuyển/chống trùng và REST demo.
 - `node --check` qua cho JavaScript ứng dụng.
-- `docker compose config --quiet` qua. Không có kết quả container runtime do lỗi Docker Desktop.
+- `docker compose config --quiet` qua. Kết quả Docker runtime bổ sung bên dưới.
 
 Test tạo user/hồ sơ riêng và dọn dữ liệu của chính test; không cần mật khẩu demo cố định. Các kiểm tra HTTP áp dụng cho bản portable có runtime đã cài trên máy này; test policy/integration dùng được qua Docker.
 
@@ -41,6 +41,21 @@ Chưa coi đây là kiểm thử bao phủ mọi trang ở mọi breakpoint ho�
 
 ## Còn cần kiểm chứng bên ngoài
 
-1. Docker Desktop hoạt động trở lại: chạy mới Compose và thực thi bộ test trong container.
-2. Gemini API key hợp lệ: kiểm tra kết nối, phiên đủ 5 câu, quota/timeout trên nhà cung cấp thật.
-3. Trước khi lên hosting: runtime PHP được cập nhật, HTTPS, email nếu cần, backup thực tế và kiểm thử tải.
+1. Gemini API key hợp lệ: kiểm tra kết nối, phiên đủ 5 câu, quota/timeout trên nhà cung cấp thật.
+2. Trước khi lên hosting: HTTPS, email nếu cần, backup thực tế và kiểm thử tải.
+
+## Bổ sung Docker — 02/11/2026
+
+Docker Engine 29.6.2 / Docker Desktop 4.84.0 đã phản hồi; WSL2 backend đang hoạt động. Không thực hiện factory reset, xóa volume hoặc thay đổi dữ liệu Docker có sẵn. Lỗi socket `dockerInference` trong log cũ không còn tái hiện; không khẳng định đã xác định nguyên nhân lịch sử của lỗi đó.
+
+TechJob AI được cài mới trong Compose ở cổng 8081: WordPress 7.1.4, PHP 8.3.36, MariaDB 11.4.13. Bản portable 8080 vẫn chạy độc lập.
+
+- `./scripts/setup.ps1 -Port 8081`: cài mới thành công, theme/plugin và dữ liệu demo được tạo.
+- `./scripts/test.ps1`: **12 policy checks + 40 integration checks** qua trong container.
+- Trang chủ, đăng nhập, việc làm và công ty trả HTTP 200; liên kết dùng đúng localhost:8081.
+- `docker compose stop` rồi `docker compose up -d wordpress`: database healthy, trang chủ hoạt động, dữ liệu 24 tin vẫn còn.
+- Chạy lại setup không tham số: dùng lại cổng 8081 từ `.env`, không cài trùng WordPress/dữ liệu.
+- Đã sửa kiểm tra version dữ liệu mẫu sang số nguyên để lần chạy lại bỏ qua seed, bảo toàn các chỉnh sửa sau khi cài.
+- Backup Docker tạo thành công SQL và kho CV nén. Kiểm chứng backup portable vẫn qua sau khi thêm backup Docker (chọn đúng định dạng backup).
+
+Tài khoản Docker nằm tại `runtime/demo-accounts.txt`, khác tài khoản portable trong `runtime/private/demo-accounts.txt`.

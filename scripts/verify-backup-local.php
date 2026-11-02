@@ -2,9 +2,9 @@
 /** Restores only into a disposable database, never overwrites techjob. */
 if (PHP_SAPI !== 'cli') { exit; }
 $root = dirname(__DIR__);
-$folders = glob($root . '/backups/*', GLOB_ONLYDIR); rsort($folders);
+$folders = array_values(array_filter(glob($root . '/backups/*', GLOB_ONLYDIR), fn($folder) => is_dir($folder . '/private'))); rsort($folders);
 $backup = $folders[0] ?? '';
-if (!$backup || !is_file($backup . '/database.sql')) { throw new RuntimeException('No backup found'); }
+if (!$backup || !is_file($backup . '/database.sql')) { throw new RuntimeException('No portable backup found. Create one with backup.ps1 -Local.'); }
 $settings = json_decode(file_get_contents($root . '/runtime/db-local.json'), true);
 $db = new mysqli('127.0.0.1', 'root', $settings['root_password'], '', 3308);
 $database = 'techjob_restore_test_' . bin2hex(random_bytes(5));

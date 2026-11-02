@@ -49,4 +49,4 @@ REST xác thực bằng WordPress cookie và `X-WP-Nonce`. Đầu ra phiên gồ
 
 CPT/metadata dùng bảng WordPress. Các bảng `wp_tj_*` dùng InnoDB, có unique key chống nộp trùng, lưu trữ CV, lịch sử, thông báo, nhật ký, phiên AI và rate limit. Prefix lấy theo `$wpdb->prefix`. Schema version 2 tự nâng cấp khi plugin khởi tạo; không xóa dữ liệu khi tắt plugin.
 
-Không chuyển database SQL Server hay password hash C#; mọi tài khoản demo được tạo mới, mật khẩu ngẫu nhiên. Phần runtime portable là phương án kiểm thử trên máy hiện tại khi Docker Desktop lỗi; compose vẫn là cấu hình cài mới dự kiến.
+Không chuyển database SQL Server hay password hash C#; mọi tài khoản demo được tạo mới, mật khẩu ngẫu nhiên. Phần runtime portable tại 8080 là bản dự phòng. Compose đã cài mới và kiểm thử thực tế tại 8081; hai bản có database/CV/tài khoản riêng.
