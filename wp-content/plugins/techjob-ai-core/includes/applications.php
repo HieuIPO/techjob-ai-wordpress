@@ -41,8 +41,9 @@ function tj_save_interview(array $input) {
     $result = sanitize_key($input['result'] ?? 'pending');
     if (!$app || !isset(tj_results()[$result])) { return new WP_Error('invalid', tj_t('Hồ sơ hoặc kết quả không hợp lệ.', 'Invalid application or result.')); }
     if (!$existing && in_array($app['status'], ['passed', 'rejected'], true)) { return new WP_Error('final', tj_t('Mở lại hồ sơ trước khi tạo lịch.', 'Reopen this application before scheduling.')); }
-    try { $date = DateTimeImmutable::createFromFormat('!Y-m-d\TH:i', sanitize_text_field($input['scheduled_at'] ?? ''), wp_timezone()); } catch (Exception $e) { $date = false; }
-    if (!$date || (!$existing && $date->getTimestamp() <= time()) || (!$existing && $result !== 'pending')) { return new WP_Error('date', tj_t('Lịch mới phải ở tương lai và chưa có kết quả.', 'New interviews must be in the future with a pending result.')); }
+    $date_input = sanitize_text_field($input['scheduled_at'] ?? '');
+    try { $date = DateTimeImmutable::createFromFormat('!Y-m-d\TH:i', $date_input, wp_timezone()); } catch (Exception $e) { $date = false; }
+    if (!$date || $date->format('Y-m-d\TH:i') !== $date_input || (!$existing && $date->getTimestamp() <= time()) || (!$existing && $result !== 'pending')) { return new WP_Error('date', tj_t('Thời gian không hợp lệ. Lịch mới phải ở tương lai và chưa có kết quả.', 'Invalid date. New interviews must be in the future with a pending result.')); }
     $values = ['application_id' => $app_id, 'interviewer_id' => get_current_user_id(), 'scheduled_at' => $date->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s'), 'location' => sanitize_text_field($input['location'] ?? ''), 'result' => $result, 'note' => sanitize_textarea_field($input['note'] ?? '')];
     if (!$values['location']) { return new WP_Error('location', tj_t('Nhập địa điểm hoặc link phỏng vấn.', 'Enter a location or interview link.')); }
     $wpdb->query('START TRANSACTION');
@@ -68,7 +69,7 @@ function tj_cancel_interview(int $id) {
     if (!$interview || $interview['cancelled']) { return new WP_Error('missing', tj_t('Lịch đã hủy hoặc không tồn tại.', 'Interview already cancelled or missing.')); }
     $app = tj_row('applications', (int)$interview['application_id']);
     $wpdb->query('START TRANSACTION');
-    $wpdb->update(tj_table('interviews'), ['cancelled' => 1], ['id' => $id]);
+    $wpdb->update(tj_table('interviews'), ['cancelled' => 1, 'active_slot' => null], ['id' => $id]);
     if ($app && ($app['status'] === 'interview' || (in_array($interview['result'], ['passed', 'rejected'], true) && $app['status'] === $interview['result']))) {
         tj_reconcile_interviews((int)$app['id'], $id, false);
     }

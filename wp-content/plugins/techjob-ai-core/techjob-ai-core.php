@@ -14,6 +14,7 @@ foreach (['policy', 'i18n', 'schema', 'data', 'files', 'applications', 'actions'
 }
 register_activation_hook(__FILE__, 'tj_activate');
 add_action('init', 'tj_register_content');
+add_action('init', function () { if ((int)get_option('tj_schema_version') < 2) { tj_activate(); } }, 20);
 add_action('init', 'tj_register_routes');
 add_action('template_redirect', 'tj_route_request', 1);
 add_action('admin_post_tj_action', 'tj_handle_action');

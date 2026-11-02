@@ -36,6 +36,8 @@ function tj_jobs(array $filter = [], bool $admin = false): array {
     $tax = [];
     foreach (['skill', 'category', 'position', 'location'] as $key) { if (!empty($filter[$key])) { $tax[] = ['taxonomy' => 'tj_' . $key, 'field' => 'term_id', 'terms' => absint($filter[$key])]; } }
     $args = ['post_type' => 'tj_job', 'post_status' => $admin ? ['publish', 'draft', 'private'] : 'publish', 'posts_per_page' => 9, 'paged' => max(1, absint($filter['pg'] ?? 1)), 'meta_query' => $meta, 'tax_query' => $tax, 'orderby' => 'date', 'order' => 'DESC'];
+    $args['orderby'] = ['date' => 'DESC', 'ID' => 'DESC'];
+    if (!empty($filter['home'])) { $args['meta_key'] = 'tj_featured'; $args['orderby'] = ['meta_value_num' => 'DESC', 'date' => 'DESC', 'ID' => 'DESC']; }
     if (!empty($filter['q'])) {
         // Query all matching translated titles/content/company names, then paginate in WP_Query.
         $q = mb_strtolower(sanitize_text_field($filter['q']));

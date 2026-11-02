@@ -11,6 +11,12 @@
     const hidden = document.body.classList.toggle('tj-sidebar-hidden');
     event.currentTarget.setAttribute('aria-expanded', String(!hidden));
   });
+  const profileToggle = document.querySelector('.tj-profile-toggle');
+  const profileLinks = document.getElementById('tj-profile-links');
+  profileToggle?.addEventListener('click', () => {
+    profileLinks.hidden = !profileLinks.hidden;
+    profileToggle.setAttribute('aria-expanded', String(!profileLinks.hidden));
+  });
   document.querySelectorAll('.tj-confirm').forEach(form => form.addEventListener('submit', event => {
     if (!window.confirm(en ? 'Confirm this action?' : 'Bạn có chắc muốn thực hiện thao tác này?')) event.preventDefault();
   }));

@@ -19,5 +19,14 @@ file_put_contents($file, '<?php echo "bad";');
 check(tj_file_signature($file, 'pdf'), false, 'Fake PDF rejected');
 file_put_contents($file, "%PDF-1.4\n");
 check(tj_file_signature($file, 'pdf'), true, 'PDF header');
+if (class_exists('ZipArchive')) {
+    $archive = $file . '.docx';
+    $zip = new ZipArchive(); $zip->open($archive, ZipArchive::CREATE);
+    $zip->addFromString('[Content_Types].xml', '<Types/>'); $zip->addFromString('word/document.xml', '<document/>'); $zip->close();
+    check(tj_file_signature($archive, 'docx'), true, 'Word OpenXML accepted');
+    unlink($archive);
+    $zip = new ZipArchive(); $zip->open($archive, ZipArchive::CREATE); $zip->addFromString('unrelated.txt', 'Not a Word document'); $zip->close();
+    check(tj_file_signature($archive, 'docx'), false, 'Arbitrary ZIP rejected'); unlink($archive);
+}
 unlink($file);
 echo "PASS $count policy checks\n";

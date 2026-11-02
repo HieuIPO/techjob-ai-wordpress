@@ -12,7 +12,7 @@ for ($attempt = 0; $attempt -lt 40; $attempt++) {
     try { Invoke-WebRequest "http://localhost:$Port/wp-admin/install.php" -TimeoutSec 5 -UseBasicParsing | Out-Null; break } catch { Start-Sleep -Seconds 2 }
 }
 Invoke-Compose exec -u root wordpress sh -c 'mkdir -p /var/techjob-private; chown www-data:www-data /var/techjob-private; chmod 700 /var/techjob-private'
-Invoke-Compose run --rm cli eval-file techjob-scripts/install.php --skip-wordpress
+Invoke-Compose run --rm cli --url="http://localhost:$Port" eval-file techjob-scripts/install.php --skip-wordpress
 Invoke-Compose run --rm cli plugin activate techjob-ai-core
 Invoke-Compose run --rm cli theme activate techjob-ai
 Invoke-Compose run --rm cli option update timezone_string Asia/Ho_Chi_Minh

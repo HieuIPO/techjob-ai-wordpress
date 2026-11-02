@@ -5,6 +5,10 @@ $root = dirname(__DIR__);
 $config = $root . '/runtime/wordpress/wp-config.php';
 if (file_exists($config)) { echo "Local configuration already exists.\n"; exit; }
 $db = new mysqli('127.0.0.1', 'root', '', '', 3308);
+$actual_dir = $db->query('SELECT @@datadir')->fetch_row()[0];
+if (strtolower(str_replace('\\', '/', rtrim($actual_dir, '/\\'))) !== strtolower(str_replace('\\', '/', $root . '/runtime/mysql'))) {
+    throw new RuntimeException('Refusing to configure a database outside this project runtime.');
+}
 $password = bin2hex(random_bytes(24));
 $db->query("CREATE DATABASE IF NOT EXISTS techjob CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 $db->query("CREATE USER IF NOT EXISTS 'techjob'@'localhost' IDENTIFIED BY '$password'");

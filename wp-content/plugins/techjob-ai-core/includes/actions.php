@@ -7,12 +7,12 @@ function tj_back(string $path, $result = true): void {
 }
 function tj_handle_action(): void {
     $action = tj_post('tj_action');
-    if (!wp_verify_nonce(tj_post('_tj_nonce'), 'tj_' . $action)) { status_header(403); wp_die(tj_t('Phiên đã hết hạn. Tải lại trang rồi thử lại.', 'Session expired. Reload and try again.')); }
+    if (!wp_verify_nonce(tj_post('_tj_nonce'), 'tj_' . $action)) { wp_die(tj_t('Phiên đã hết hạn. Tải lại trang rồi thử lại.', 'Session expired. Reload and try again.'), '', ['response' => 403]); }
     if (in_array($action, ['login', 'register'], true)) { tj_auth_action($action); }
     if (!is_user_logged_in()) { wp_safe_redirect(tj_url('dang-nhap')); exit; }
     $admin_actions = ['save_job', 'delete_job', 'save_company', 'delete_company', 'save_term', 'delete_term', 'status', 'save_interview', 'cancel_interview', 'save_user', 'save_settings'];
-    if (in_array($action, $admin_actions, true) && !tj_admin()) { status_header(403); wp_die('Forbidden'); }
-    if (in_array($action, ['apply', 'save_job_toggle', 'upload_cv'], true) && !tj_candidate()) { status_header(403); wp_die('Candidates only'); }
+    if (in_array($action, $admin_actions, true) && !tj_admin()) { wp_die('Forbidden', '', ['response' => 403]); }
+    if (in_array($action, ['apply', 'save_job_toggle', 'upload_cv'], true) && !tj_candidate()) { wp_die('Candidates only', '', ['response' => 403]); }
     global $wpdb;
     switch ($action) {
         case 'profile':
@@ -82,7 +82,7 @@ function tj_handle_action(): void {
             update_option('tj_ai_prompt', mb_substr(sanitize_textarea_field(wp_unslash($_POST['prompt'] ?? '')), 0, 3000), false);
             update_option('tj_ai_demo', tj_post('demo') === '1');
             tj_back('quan-tri/cai-dat');
-        default: status_header(400); wp_die('Unknown action');
+        default: wp_die('Unknown action', '', ['response' => 400]);
     }
 }
 function tj_auth_action(string $action): void {

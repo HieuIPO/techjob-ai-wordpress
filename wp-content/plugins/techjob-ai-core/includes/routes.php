@@ -17,12 +17,18 @@ function tj_route_request(): void {
     if ($route === 'tai-cv') { tj_download_cv(absint($slug)); }
     if ($route === 'lich-ics') { tj_download_calendar(absint($slug)); }
     if ($route === 'dang-xuat') {
-        if (!wp_verify_nonce(sanitize_text_field($_GET['_wpnonce'] ?? ''), 'tj_logout')) { status_header(403); wp_die('Invalid logout nonce'); }
+        if (!wp_verify_nonce(sanitize_text_field($_GET['_wpnonce'] ?? ''), 'tj_logout')) { wp_die('Invalid logout nonce', '', ['response' => 403]); }
         wp_logout(); wp_safe_redirect(tj_url()); exit;
     }
     if (is_user_logged_in() && in_array($route, ['dang-nhap', 'dang-ky'], true)) { wp_safe_redirect(tj_url(tj_admin() ? 'quan-tri' : 'tai-khoan')); exit; }
     status_header(200);
     if (is_user_logged_in()) { nocache_headers(); }
+    if ($route === 'tai-khoan' && isset($_GET['application'])) {
+        $application = tj_row('applications', absint($_GET['application']));
+        if (!$application || (int)$application['user_id'] !== get_current_user_id()) {
+            status_header(403); tj_render('error', ['message' => tj_t('Không có quyền xem hồ sơ này.', 'You cannot view this application.')]); exit;
+        }
+    }
     $data = ['route' => $route, 'section' => $slug];
     if ($route === 'job') {
         $job = get_page_by_path($slug, OBJECT, 'tj_job');
@@ -36,7 +42,7 @@ function tj_route_request(): void {
 function tj_download_calendar(int $id): void {
     $interview = tj_row('interviews', $id);
     $app = $interview ? tj_row('applications', (int)$interview['application_id']) : null;
-    if (!$interview || !$app || (!tj_admin() && (int)$app['user_id'] !== get_current_user_id())) { status_header(403); wp_die('Forbidden'); }
+    if (!$interview || !$app || (!tj_admin() && (int)$app['user_id'] !== get_current_user_id())) { wp_die('Forbidden', '', ['response' => 403]); }
     $escape = fn($value) => str_replace(["\\", "\r", "\n", ';', ','], ["\\\\", '', '\\n', '\\;', '\\,'], $value);
     $start = strtotime($interview['scheduled_at'] . ' UTC');
     nocache_headers();

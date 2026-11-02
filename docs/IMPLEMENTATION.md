@@ -9,8 +9,11 @@ Theme `techjob-ai` giữ giao diện; plugin `techjob-ai-core` chứa dữ liệ
 Rà soát quyền chủ sở hữu, nonce/CSRF, SQL có tham số, escape HTML, upload theo nội dung, hạn mức AI, khóa không ra trình duyệt; test tích hợp và test phân quyền. Chạy SecureCoder nếu dịch vụ có sẵn, ghi rõ giới hạn nếu không; audit trong `docs/walkthrough.md`.
 
 ## Các đợt
-- [ ] Docker, WordPress, dữ liệu và tài khoản mẫu.
-- [ ] Giao diện tuyển dụng, ứng viên, CV, lưu việc và ứng tuyển.
-- [ ] Dashboard, CRUD tin/công ty/danh mục, hồ sơ, lịch, thông báo và tài khoản.
-- [ ] Việt/Anh và phỏng vấn Gemini/demo.
-- [ ] Kiểm thử runtime, đóng gói và bàn giao.
+- [x] WordPress portable, dữ liệu và tài khoản mẫu; Compose đã tạo, Docker runtime còn bị chặn bởi engine trên máy.
+- [x] Giao diện tuyển dụng, ứng viên, CV, lưu việc và ứng tuyển.
+- [x] Dashboard, CRUD tin/công ty/danh mục, hồ sơ, lịch, thông báo và tài khoản.
+- [x] Việt/Anh và phỏng vấn demo; adapter Gemini đã viết, chưa có khóa để kiểm chứng thật.
+- [x] Kiểm thử portable, đóng gói, backup/restore; cần kiểm chứng Docker khi engine hoạt động.
+
+## Môi trường thực tế
+Docker Desktop lỗi socket dockerInference. WordPress 7.1.4 đang chạy bằng PHP 8.2.12 và MariaDB portable 11.4.13 trong runtime. Cấu hình Compose đã qua kiểm tra cú pháp; container chưa chạy được. Xem README và docs/TEST-RESULTS.md.

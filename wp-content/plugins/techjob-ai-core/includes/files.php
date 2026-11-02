@@ -27,10 +27,10 @@ function tj_upload_cv(array $file) {
 function tj_can_read_file(array $file): bool { return is_user_logged_in() && (tj_admin() || (int)$file['user_id'] === get_current_user_id()); }
 function tj_download_cv(int $id): void {
     $file = tj_row('files', $id);
-    if (!$file || !tj_can_read_file($file)) { status_header(403); wp_die(tj_t('Bạn không có quyền tải CV này.', 'You cannot download this CV.')); }
+    if (!$file || !tj_can_read_file($file)) { wp_die(tj_t('Bạn không có quyền tải CV này.', 'You cannot download this CV.'), '', ['response' => 403]); }
     $dir = realpath(tj_private_dir());
     $path = realpath(tj_private_dir() . '/' . basename($file['stored_name']));
-    if (!$dir || !$path || !str_starts_with($path, $dir . DIRECTORY_SEPARATOR) || !is_file($path)) { status_header(404); wp_die('CV unavailable'); }
+    if (!$dir || !$path || !str_starts_with($path, $dir . DIRECTORY_SEPARATOR) || !is_file($path)) { wp_die('CV unavailable', '', ['response' => 404]); }
     nocache_headers();
     header('X-Content-Type-Options: nosniff');
     header('Content-Type: ' . $file['mime']);

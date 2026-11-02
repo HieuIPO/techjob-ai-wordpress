@@ -1,58 +1,41 @@
-# Đặc tả TechJob AI
+# Đặc tả TechJob AI — bản WordPress
 
-## Mục tiêu
-Xây dựng website WordPress tuyển dụng IT và luyện phỏng vấn, có giao diện tiếng Việt và tiếng Anh.
+## Mục tiêu và nguồn
+Chuyển giao diện và luồng ATS Mini sang WordPress, giữ cả phía ứng viên và dashboard quản trị. Giao diện lấy từ bản local đã chụp; nghiệp vụ đối chiếu GitHub HieuIPO/ats-mini-mvc commit 56d6080f85d2f233bca468da6d31e81c0617d7e7. Không sửa dự án ATS cũ.
 
-## Phạm vi
-- Trang chủ: tìm kiếm, việc làm nổi bật, công ty nổi bật.
-- Danh sách việc làm: lọc kỹ năng, lương, địa điểm; phân trang.
-- Chi tiết việc làm: mô tả, yêu cầu, hạn nộp và nộp CV.
-- Hồ sơ ứng viên: đăng ký, đăng nhập, cập nhật thông tin, xem lịch sử ứng tuyển và trạng thái.
-- Widget phỏng vấn: chọn kỹ năng, trò chuyện với AI, nhận nhận xét; thông báo rõ khi dịch vụ chưa được cấu hình.
-- Chuyển ngôn ngữ Việt/Anh cho giao diện; nội dung tin cần bản dịch riêng.
-- Quản trị: thống kê, CRUD và duyệt việc làm, nhóm nghề/kỹ năng, ứng viên/hồ sơ, cấu hình AI/ngôn ngữ.
+## Phạm vi đã chốt
+- Hai vai trò: Ứng viên và Admin; khách là trạng thái chưa đăng nhập. Bỏ HR và bước duyệt giữa HR/Admin.
+- Trang chủ, việc làm nổi bật, công ty, tìm/lọc kỹ năng/lương/địa điểm/loại hình, chi tiết và ứng tuyển.
+- Đăng ký/đăng nhập, hồ sơ cá nhân, CV, lưu việc, lịch sử ứng tuyển, trạng thái, lịch và thông báo.
+- Admin: dashboard dữ liệu thực, CRUD tin/công ty/danh mục, hồ sơ/CV, trạng thái, ghi chú nội bộ, lịch phỏng vấn/kết quả, khóa/mở ứng viên, cấu hình AI/ngôn ngữ.
+- Giao diện và dữ liệu mẫu Việt–Anh; nội dung hai bản dịch dùng chung ID việc làm.
+- Gemini phía máy chủ và demo ghi nhãn, 5 câu mỗi phiên. Không tự gửi CV sang AI.
+- Dữ liệu IT mẫu mới; không nhập tài khoản/CV cũ.
 
-## Giả định cần xác nhận
-- Bản đầu phục vụ đồ án, chạy local.
-- Hai vai trò: ứng viên và quản trị viên. Chưa có cổng riêng cho doanh nghiệp.
-- CV chỉ chủ sở hữu và quản trị viên có quyền phù hợp được tải; không công khai URL tệp.
-- Trạng thái hồ sơ: đã nộp, đang xem xét, mời phỏng vấn, từ chối, trúng tuyển.
-- Khóa API AI chỉ lưu phía máy chủ; không đưa vào JavaScript trình duyệt.
+## Kiến trúc và quy tắc
+Theme techjob-ai; plugin techjob-ai-core. WordPress users/cookie/capability cho tài khoản. CPT cho việc làm/công ty, taxonomy cho kỹ năng/danh mục, bảng InnoDB riêng cho hồ sơ, tệp, lịch sử, lịch, lưu việc, thông báo, audit và AI.
+CV PDF/DOC/DOCX tối đa 5 MB, kiểm tra extension/chữ ký, lưu ngoài webroot; chỉ chủ sở hữu và Admin tải được. Một ứng viên một hồ sơ cho một việc làm. Snapshot tên/email/điện thoại và CV lúc nộp không đổi theo profile mới.
+Trạng thái: submitted/reviewing/interview/passed/rejected. Tin: Nháp/Đang tuyển/Đã đóng. Lịch và kết quả tự đối soát trạng thái theo ATS cũ. Dữ liệu UTC, hiển thị Asia/Ho_Chi_Minh.
+Không sửa core/vendor. Validate/sanitize đầu vào, escape đầu ra, nonce và kiểm tra quyền phía máy chủ. Không commit khóa, runtime, backup. PHP dùng tiền tố tj_; tách dữ liệu/nghiệp vụ/template/assets.
 
-## Công nghệ và cấu trúc dự kiến
-WordPress/PHP/MySQL. Phiên bản cụ thể sẽ chọn sau khi kiểm tra môi trường.
-- wp-content/themes/techjob-ai/: giao diện responsive và chuỗi giao diện có thể dịch.
-- wp-content/plugins/techjob-ai-core/: việc làm, phân quyền, ứng tuyển, CV, thống kê và tích hợp AI.
-- docs/: đặc tả, hướng dẫn cài đặt và nghiệm thu.
-Không sửa WordPress core hoặc mã của plugin bên thứ ba.
+## Chạy và cấu trúc
+- wp-content/themes/techjob-ai: theme.
+- wp-content/plugins/techjob-ai-core: nghiệp vụ, giao diện, assets.
+- scripts: cài đặt, chạy, dừng, test, backup, đóng gói.
+- tests: policy, WordPress integration, HTTP.
+- docs: ánh xạ, kết quả, audit và ảnh.
+- runtime và backups: dữ liệu local/bí mật, bỏ qua Git.
 
-## Lệnh kiểm tra dự kiến
-Kiểm tra PHP khi có PHP trên PATH:
-`php -l wp-content/plugins/techjob-ai-core/techjob-ai-core.php`
-Lệnh cài/chạy phụ thuộc lựa chọn LocalWP, XAMPP hoặc Docker; sẽ bổ sung khi môi trường được xác định.
+Docker Compose là cấu hình cài mới. Docker Desktop hiện lỗi socket dockerInference; bản chạy kiểm thử dùng PHP có sẵn và MariaDB portable riêng trong dự án.
 
-## Quy ước mã
-Dùng tiền tố techjob_ai_, WordPress Coding Standards, kiểm tra capability và nonce cho thao tác thay đổi dữ liệu.
-Ví dụ: `$job_id = absint( $_POST['job_id'] ?? 0 );`
-Validate đầu vào, escape đầu ra, dùng API WordPress cho truy vấn và người dùng.
+```powershell
+./scripts/setup.ps1
+./scripts/start-local.ps1
+./scripts/test.ps1 -Local
+./scripts/backup.ps1 -Local
+./scripts/package.ps1
+```
 
-## Kiểm thử và nghiệm thu
-- Ứng viên tìm và lọc đúng việc làm, đăng nhập và nộp CV hợp lệ.
-- Chặn CV sai định dạng/quá dung lượng; người không có quyền không truy cập được CV.
-- Ứng viên chỉ xem được hồ sơ ứng tuyển của mình.
-- Quản trị thay đổi trạng thái và thống kê phản ánh dữ liệu thực.
-- Giao diện hoạt động ở điện thoại và desktop, chuyển được Việt/Anh.
-- Chatbot phản hồi khi cấu hình hợp lệ; xử lý lỗi, giới hạn lượt gọi và không lộ khóa.
-- Kiểm tra thủ công luồng đầu cuối trên WordPress và kiểm thử logic phân quyền/upload trước khi bàn giao.
-
-## Giới hạn
-- Luôn: bảo vệ CV, xác thực và phân quyền phía máy chủ, ghi lại hướng dẫn cài đặt.
-- Cần thống nhất: môi trường chạy, nhà cung cấp AI, cổng doanh nghiệp nếu bổ sung.
-- Không: commit khóa bí mật, công khai CV, sửa WordPress core.
-
-## Điểm chưa chốt
-Máy đã có WordPress/LocalWP/XAMPP chưa? Ưu tiên dùng plugin sẵn có hay tự viết theme/plugin để nộp kèm mã nguồn?
-
-## Quyết định cập nhật ngày 02/11/2026
-Giữ giao diện ứng viên và quản trị ATS, giữ các chức năng cũ nhưng chỉ có hai vai trò: Ứng viên và Admin; bỏ HR và duyệt tin giữa các vai trò. Chạy Docker Compose, dùng dữ liệu IT mẫu mới, Gemini API kèm demo ghi nhãn, dịch giao diện và tin/công ty mẫu Việt/Anh. Xem docs/reference/README.md và ảnh chụp bản ATS local trong docs/reference/screenshots. Bản local khác nhánh main GitHub; cần chốt nguồn tham chiếu trước khi port.
-
+## Nghiệm thu và giới hạn
+Kiểm thử luồng ứng viên/Admin, chống trùng, quyền CV/hồ sơ, nonce, trạng thái và lịch, Việt–Anh, demo AI và phục hồi backup. Kết quả thực tế: docs/TEST-RESULTS.md.
+Bản đầu phục vụ đồ án local, chưa hosting/email/SMS/cổng doanh nghiệp/avatar ảnh/kiểm thử tải. Chưa nghiệm thu Gemini thật khi thiếu API key và Docker runtime khi engine còn lỗi. Xem README để chạy và cấu hình.
