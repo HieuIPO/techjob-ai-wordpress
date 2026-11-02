@@ -1,0 +1,1111 @@
+/* ============================================================
+   ATS Modern Admin — Premium SaaS-Style Design System
+   Inspired by Airtable, FindPoint, and HirePath
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- CUSTOM VARIABLES & DESIGN TOKENS --- */
+:root {
+    /* Color Palette */
+    --saas-primary:      #2563eb; /* Deep vibrant blue */
+    --saas-primary-dark: #1d4ed8;
+    --saas-bg:           #f8f9fa; /* Spacious light grey canvas background */
+    --saas-card-bg:      #ffffff;
+    --saas-text-main:    #1e293b; /* Near black ink text */
+    --saas-text-muted:   #64748b; /* Cool grey text */
+    --saas-border:       #e2e8f0; /* Subtle hairline border */
+    
+    /* Stage Status Colors */
+    --stage-orange:      #f97316; /* Solid vibrant orange */
+    --stage-inactive:    #e2e8f0;
+    
+    /* Pastel Theme Variations */
+    --pastel-pink-bg:    #fdf2f8;
+    --pastel-pink-text:  #db2777;
+    --pastel-yellow-bg:  #fef3c7;
+    --pastel-yellow-text:#d97706;
+    --pastel-blue-bg:    #eff6ff;
+    --pastel-blue-text:  #2563eb;
+    --pastel-purple-bg:  #f5f3ff;
+    --pastel-purple-text:#7c3aed;
+
+    /* Shadows & Border Radius */
+    --saas-shadow:       0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --saas-shadow-deep:  0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --r-lg:              12px; /* Soft rounded corners */
+    --r-md:              8px;
+    --r-circle:          50%;
+}
+
+/* --- RESET & GLOBAL RULES --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body.admin-shell {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--saas-bg);
+    color: var(--saas-text-main);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- ADMIN LAYOUT STRUCTURE (Two-Column Setup with Bulletproof Fixed Sidebar) --- */
+.admin-shell-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    min-height: 100vh;
+}
+
+/* Left Sidebar (Clean White Sidebar - Fixed positioning) */
+.admin-sidebar {
+    background-color: var(--saas-card-bg);
+    border-right: 1px solid var(--saas-border);
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    height: 100vh;
+    z-index: 100;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.admin-sidebar-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-md);
+    background-color: var(--saas-primary);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 18px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.admin-sidebar-brand-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--saas-text-main);
+    letter-spacing: -0.02em;
+    transition: opacity 0.2s ease;
+}
+
+/* Navigation Items */
+.admin-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-grow: 1;
+}
+
+.admin-sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--saas-text-muted);
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s, padding 0.25s ease;
+    white-space: nowrap;
+}
+
+.admin-sidebar-nav a:hover {
+    background-color: #f1f5f9;
+    color: var(--saas-text-main);
+}
+
+.admin-sidebar-nav a.is-active {
+    background-color: #eff6ff;
+    color: var(--saas-primary);
+    font-weight: 600;
+}
+
+.admin-sidebar-nav a span {
+    transition: opacity 0.2s ease;
+}
+
+/* Settings block at the bottom */
+.admin-sidebar-footer {
+    border-top: 1px solid var(--saas-border);
+    padding-top: 16px;
+    margin-top: auto;
+}
+
+.admin-sidebar-footer a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--r-md);
+    text-decoration: none;
+    color: var(--saas-text-muted);
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s, padding 0.25s ease;
+    white-space: nowrap;
+}
+
+.admin-sidebar-footer a:hover {
+    background-color: #f1f5f9;
+    color: var(--saas-text-main);
+}
+
+.admin-sidebar-footer a span {
+    transition: opacity 0.2s ease;
+}
+
+/* Right Content Wrapper (Has padding to offset the fixed sidebar) */
+.admin-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-left: 260px;
+    transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- COLLAPSED SIDEBAR STATES --- */
+.admin-shell-grid.sidebar-collapsed .admin-sidebar {
+    width: 76px;
+    padding: 24px 12px;
+}
+
+.admin-shell-grid.sidebar-collapsed .admin-content-wrapper {
+    margin-left: 76px;
+}
+
+.admin-shell-grid.sidebar-collapsed .admin-sidebar-brand-name,
+.admin-shell-grid.sidebar-collapsed .admin-sidebar-nav a span,
+.admin-shell-grid.sidebar-collapsed .admin-sidebar-footer a span {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.admin-shell-grid.sidebar-collapsed .admin-sidebar-brand,
+.admin-shell-grid.sidebar-collapsed .admin-sidebar-nav a,
+.admin-shell-grid.sidebar-collapsed .admin-sidebar-footer a {
+    justify-content: center;
+    padding: 12px 0;
+    gap: 0;
+}
+
+/* Top Navbar */
+.admin-navbar {
+    background-color: var(--saas-card-bg);
+    border-bottom: 1px solid var(--saas-border);
+    height: 70px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+}
+
+/* Search bar */
+.admin-navbar-search {
+    position: relative;
+    width: 320px;
+}
+
+.admin-navbar-search input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--saas-border);
+    background-color: #f8fafc;
+    border-radius: 9999px; /* Fully rounded search inputs */
+    padding: 0 16px 0 40px;
+    font-size: 13.5px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.admin-navbar-search input:focus {
+    background-color: #ffffff;
+    border-color: var(--saas-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.admin-navbar-search::before {
+    content: "🔍";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--saas-text-muted);
+    pointer-events: none;
+}
+
+/* Right Navbar elements */
+.admin-navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.admin-navbar-notify {
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--r-circle);
+    transition: background 0.2s ease;
+}
+
+.admin-navbar-notify:hover {
+    background-color: #f1f5f9;
+}
+
+.admin-navbar-notify-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: var(--r-circle);
+    border: 2px solid #ffffff;
+}
+
+/* User Profile Dropdown (inspired by image_fca5c2.jpg) */
+.admin-user-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    transition: background 0.2s ease;
+    user-select: none;
+}
+
+.admin-user-profile:hover {
+    background-color: #f1f5f9;
+}
+
+.admin-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r-circle);
+    object-fit: cover;
+    border: 1.5px solid var(--saas-border);
+}
+
+.admin-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-user-name {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: var(--saas-text-main);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.admin-user-name::after {
+    content: "▾";
+    font-size: 12px;
+}
+
+.admin-user-role {
+    font-size: 11px;
+    color: var(--saas-text-muted);
+    margin-top: -2px;
+}
+
+/* User dropdown context menu */
+.admin-user-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 180px;
+    background-color: var(--saas-card-bg);
+    border: 1px solid var(--saas-border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--saas-shadow-deep);
+    z-index: 200;
+    display: none;
+    overflow: hidden;
+    padding: 6px 0;
+}
+
+.admin-user-menu.is-active {
+    display: block;
+    animation: slideUpFade 0.2s ease;
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-user-menu a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--saas-text-main);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    transition: background 0.15s ease;
+}
+
+.admin-user-menu a:hover {
+    background-color: #f8fafc;
+}
+
+.admin-user-menu a.logout-link {
+    color: #ef4444;
+    border-top: 1px solid var(--saas-border);
+    margin-top: 4px;
+    padding-top: 12px;
+}
+
+.admin-user-menu a.logout-link:hover {
+    background-color: #fef2f2;
+}
+
+/* --- MAIN CONTENT & CONTAINERS --- */
+.admin-main {
+    flex-grow: 1;
+    padding: 32px 40px;
+    background-color: var(--saas-bg);
+}
+
+.saas-card {
+    background-color: var(--saas-card-bg);
+    border-radius: var(--r-lg); /* border-radius: 12px */
+    border: 1px solid var(--saas-border);
+    box-shadow: var(--saas-shadow); /* Subtle shadow */
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+/* --- ADMIN OVERVIEW PANEL (Dashboard.cshtml) --- */
+
+/* Horizontal Welcome Banner (inspired by image_fca5a0.jpg) */
+.admin-welcome-banner {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* Deep ocean blue gradient */
+    border-radius: var(--r-lg);
+    padding: 36px 40px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(30, 60, 114, 0.15);
+}
+
+.admin-welcome-banner::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    bottom: -40px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--r-circle);
+    pointer-events: none;
+}
+
+.admin-welcome-info h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.admin-welcome-info p {
+    margin: 8px 0 0;
+    font-size: 14.5px;
+    opacity: 0.85;
+}
+
+.admin-welcome-badge {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    font-size: 13px;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+}
+
+/* Statistic Metric Cards Grid (inspired by Screenshot 2026-06-01 194620.jpg) */
+.admin-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.admin-metric-card {
+    border-radius: var(--r-lg);
+    padding: 24px;
+    border: 1px solid var(--saas-border);
+    box-shadow: var(--saas-shadow);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--saas-shadow-deep);
+}
+
+.admin-metric-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.admin-metric-card-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--saas-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.admin-metric-card-dots {
+    color: var(--saas-text-muted);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    line-height: 1;
+    border-radius: var(--r-circle);
+}
+
+.admin-metric-card-dots:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.admin-metric-card-value {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+}
+
+.admin-metric-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 500;
+}
+
+.admin-metric-card-trend {
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Card color themes: Pastel shades */
+.admin-metric-card.theme-pink {
+    background-color: var(--pastel-pink-bg);
+    border-color: #fbcfe8;
+}
+.admin-metric-card.theme-pink .admin-metric-card-value {
+    color: var(--pastel-pink-text);
+}
+.admin-metric-card.theme-pink .admin-metric-card-trend {
+    background-color: rgba(219, 39, 119, 0.1);
+    color: var(--pastel-pink-text);
+}
+
+.admin-metric-card.theme-yellow {
+    background-color: var(--pastel-yellow-bg);
+    border-color: #fde68a;
+}
+.admin-metric-card.theme-yellow .admin-metric-card-value {
+    color: var(--pastel-yellow-text);
+}
+.admin-metric-card.theme-yellow .admin-metric-card-trend {
+    background-color: rgba(217, 119, 6, 0.1);
+    color: var(--pastel-yellow-text);
+}
+
+.admin-metric-card.theme-blue {
+    background-color: var(--pastel-blue-bg);
+    border-color: #bfdbfe;
+}
+.admin-metric-card.theme-blue .admin-metric-card-value {
+    color: var(--pastel-blue-text);
+}
+.admin-metric-card.theme-blue .admin-metric-card-trend {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--pastel-blue-text);
+}
+
+/* Bố cục phân tách 2 cột (Layout Split) */
+.admin-layout-split {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 24px;
+}
+
+.admin-action-row-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--r-md);
+    background-color: var(--saas-primary);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+.admin-action-row-btn:hover {
+    background-color: var(--saas-primary-dark);
+}
+
+/* Donut Chart representation (inspired by Screenshot 2026-06-01 194620.jpg) */
+.donut-chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.donut-chart-svg {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 24px;
+}
+
+.donut-chart-inner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.donut-chart-inner-text .total-val {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--saas-text-main);
+    display: block;
+    line-height: 1;
+}
+
+.donut-chart-inner-text .total-lbl {
+    font-size: 11px;
+    color: var(--saas-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+    display: block;
+}
+
+.donut-chart-labels {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.donut-chart-label-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.donut-chart-label-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.donut-chart-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--r-circle);
+}
+
+.donut-chart-dot.pending { background-color: #f59e0b; }
+.donut-chart-dot.closed { background-color: #db2777; }
+.donut-chart-dot.approved { background-color: #3b82f6; }
+.donut-chart-dot.sent { background-color: #8b5cf6; }
+
+.donut-chart-label-name {
+    color: var(--saas-text-main);
+    font-weight: 500;
+}
+
+.donut-chart-label-right {
+    font-weight: 600;
+    color: var(--saas-text-muted);
+}
+
+.donut-chart-label-right span.perc {
+    color: var(--saas-text-main);
+    margin-left: 8px;
+}
+
+/* --- APPLICANT TRACKING GRID (Candidates.cshtml) --- */
+
+/* Header section tabs (inspired by image_fca5c2.jpg) */
+.candidates-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.candidates-header h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.03em;
+}
+
+.candidates-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 24px;
+    padding-bottom: 0;
+}
+
+.candidates-tab-item {
+    padding: 10px 4px 12px;
+    font-weight: 500;
+    font-size: 14.5px;
+    color: var(--saas-text-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.15s ease;
+}
+
+.candidates-tab-item:hover {
+    color: var(--saas-text-main);
+}
+
+.candidates-tab-item.is-active {
+    color: #16a34a; /* Vibrant light-green primary tag indicator from FindPoint */
+    border-bottom-color: #16a34a;
+    font-weight: 600;
+}
+
+/* Responsive Custom Data Table Wrapper */
+.table-card {
+    background-color: var(--saas-card-bg);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--saas-border);
+    box-shadow: var(--saas-shadow);
+    overflow: hidden;
+    padding: 0;
+}
+
+.table-responsive-wrapper {
+    overflow-x: auto;
+}
+
+.candidates-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.candidates-table th {
+    background-color: #f8fafc;
+    padding: 14px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--saas-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--saas-border);
+}
+
+.candidates-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--saas-border);
+    vertical-align: middle;
+}
+
+.candidates-table tr:last-child td {
+    border-bottom: none;
+}
+
+.candidates-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.candidates-table tbody tr:hover {
+    background-color: #f8fafc; /* hover shows surface-soft row tint */
+}
+
+/* Candidate Column Component (Avatar + Name) */
+.candidate-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.candidate-cell-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r-circle);
+    object-fit: cover;
+    border: 1.5px solid var(--saas-border);
+}
+
+.candidate-cell-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.candidate-cell-name {
+    font-weight: 600;
+    color: var(--saas-text-main);
+    font-size: 13.5px;
+}
+
+.candidate-cell-email {
+    font-size: 12px;
+    color: var(--saas-text-muted);
+}
+
+/* Numbered Circular Status Nodes (inspired by image_fca5c2.jpg) */
+.stage-progress-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stage-progress-node {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--r-circle);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+/* Passed/Active Stage: Vibrant Orange Solid */
+.stage-progress-node.is-active {
+    background-color: var(--stage-orange);
+    color: #ffffff;
+    border: 1px solid var(--stage-orange);
+}
+
+/* Outlined Stage: Gray Outlined */
+.stage-progress-node.is-inactive {
+    background-color: transparent;
+    color: var(--saas-text-muted);
+    border: 1.5px solid var(--saas-border);
+}
+
+/* Tooltip behavior or labels for circular nodes */
+.stage-progress-container[title] {
+    cursor: help;
+}
+
+/* Actions Column & Context Dropdown Menu */
+.actions-column-cell {
+    position: relative;
+    text-align: right;
+}
+
+.actions-dropdown-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--saas-text-muted);
+    padding: 6px;
+    border-radius: var(--r-circle);
+    display: inline-grid;
+    place-items: center;
+    transition: background 0.15s ease;
+}
+
+.actions-dropdown-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--saas-text-main);
+}
+
+.actions-context-menu {
+    position: absolute;
+    top: auto;
+    right: 24px;
+    bottom: calc(100% - 10px);
+    width: 190px;
+    background-color: var(--saas-card-bg);
+    border: 1px solid var(--saas-border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--saas-shadow-deep);
+    z-index: 150;
+    display: none;
+    overflow: hidden;
+    padding: 6px 0;
+    text-align: left;
+}
+
+.actions-context-menu.is-active {
+    display: block;
+    animation: slideUpFade 0.15s ease;
+}
+
+.actions-context-menu a,
+.actions-context-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    width: 100%;
+    border: none;
+    background: none;
+    color: var(--saas-text-main);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 12.5px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-family: inherit;
+}
+
+.actions-context-menu a:hover,
+.actions-context-menu button:hover {
+    background-color: #f8fafc;
+}
+
+.actions-context-menu .danger-option {
+    color: #ef4444;
+    border-top: 1px solid var(--saas-border);
+    margin-top: 4px;
+    padding-top: 10px;
+}
+
+.actions-context-menu .danger-option:hover {
+    background-color: #fef2f2;
+}
+
+/* Status badge chips on table */
+.saas-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.saas-status-badge.linkedin {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.saas-status-badge.referral {
+    background-color: #ecfdf5;
+    color: #059669;
+}
+
+.saas-status-badge.other {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+/* Minimalist inline note field */
+.admin-note-inline {
+    font-size: 11.5px;
+    color: var(--saas-text-muted);
+    background-color: #f8fafc;
+    border-left: 3.5px solid var(--saas-primary);
+    padding: 6px 12px;
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    margin-top: 6px;
+    display: block;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --- FORMS & INPUTS --- */
+.saas-form-row {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.saas-form-row label {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--saas-text-main);
+}
+
+.saas-form-row input,
+.saas-form-row select,
+.saas-form-row textarea {
+    width: 100%;
+    height: 44px; /* Form input height: 44px */
+    border: 1px solid var(--saas-border);
+    border-radius: var(--r-sm); /* border-radius: 6px */
+    padding: 0 14px;
+    font-size: 13.5px;
+    outline: none;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.saas-form-row textarea {
+    height: 100px;
+    padding: 10px 14px;
+    resize: vertical;
+}
+
+.saas-form-row input:focus,
+.saas-form-row select:focus,
+.saas-form-row textarea:focus {
+    border-color: var(--saas-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); /* focus ring #458fff */
+}
+
+/* Submit and Action Buttons */
+.saas-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: var(--r-md);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.saas-btn-primary {
+    background-color: var(--saas-text-main); /* Airtable primary is near-black */
+    color: #ffffff;
+}
+
+.saas-btn-primary:hover {
+    background-color: #0f172a;
+}
+
+.saas-btn-secondary {
+    background-color: #ffffff;
+    border-color: var(--saas-border);
+    color: var(--saas-text-main);
+}
+
+.saas-btn-secondary:hover {
+    background-color: #f8fafc;
+    border-color: var(--saas-text-muted);
+}
+
+/* Modal and Overlays styling */
+.saas-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.saas-modal {
+    background-color: var(--saas-card-bg);
+    border-radius: var(--r-lg);
+    box-shadow: var(--saas-shadow-deep);
+    border: 1px solid var(--saas-border);
+    width: 480px;
+    padding: 28px;
+    position: relative;
+    animation: scaleIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.saas-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--saas-text-muted);
+    line-height: 1;
+}
+
+.saas-modal-close:hover {
+    color: var(--saas-text-main);
+}
+
+/* Responsive Table scroll wrap wrapper */
+.admin-table-wrap {
+    overflow-x: auto;
+    width: 100%;
+}

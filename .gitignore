@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+reference/
+runtime/
+backups/
+artifacts/
+*.zip
+*.log
+node_modules/
+.DS_Store

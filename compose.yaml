@@ -1,0 +1,56 @@
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: techjob
+      MARIADB_USER: techjob
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Run scripts/setup.ps1 first}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Run scripts/setup.ps1 first}
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${TECHJOB_PORT:-8080}:80"
+    environment: &wp-env
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: techjob
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: techjob
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-flash-latest}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('DISALLOW_FILE_EDIT', true);
+        define('WP_ENVIRONMENT_TYPE', 'local');
+        define('TECHJOB_PRIVATE_DIR', '/var/techjob-private');
+    volumes: &wp-volumes
+      - wordpress:/var/www/html
+      - private-cvs:/var/techjob-private
+      - ./wp-content/themes/techjob-ai:/var/www/html/wp-content/themes/techjob-ai
+      - ./wp-content/plugins/techjob-ai-core:/var/www/html/wp-content/plugins/techjob-ai-core
+      - ./tests:/var/www/html/techjob-tests:ro
+      - ./scripts:/var/www/html/techjob-scripts:ro
+      - ./docker/uploads.ini:/usr/local/etc/php/conf.d/techjob.ini:ro
+  cli:
+    image: wordpress:cli-php8.3
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment: *wp-env
+    volumes: *wp-volumes
+    profiles: [tools]
+volumes:
+  database:
+  wordpress:
+  private-cvs:
