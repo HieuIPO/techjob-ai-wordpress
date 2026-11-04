@@ -1,0 +1,1879 @@
+{
+ "url": "http://localhost:8081/?lang=vi",
+ "at": "2026-11-03T10:50:03.985Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 7,
+   "filled": [
+    0.76,
+    0.29,
+    0.71,
+    0.92,
+    0.92,
+    0.81,
+    0.88
+   ],
+   "motion": {
+    "elements": 15,
+    "css": 2,
+    "transitions": 13,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 5439,
+     "screens": 6,
+     "words": 273,
+     "img": 4,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 9,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 2,
+     "uiAbuse": false,
+     "realPictures": 4,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "coding-programming.jpg",
+      "programmer-at-work-unsplash.jpg",
+      "software-developer-at-work-03.jpg",
+      "programmers.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+     "words": 7,
+     "chars": 33,
+     "lines": 2,
+     "size": 120,
+     "vw": 8.3,
+     "font": "Be Vietnam Pro",
+     "weight": 700,
+     "tracking": -0.055,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.89,
+     "top": 182,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+     "words": 7,
+     "lines": 2,
+     "size": 120,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+      "words": 7,
+      "chars": 33,
+      "lines": 2,
+      "size": 120,
+      "vw": 8.3,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.055,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.89,
+      "top": 182,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Cơ hội việc làm IT",
+      "words": 5,
+      "chars": 18,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.18,
+      "top": 944,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Công ty tuyển dụng hàng đầu",
+      "words": 6,
+      "chars": 27,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.31,
+      "top": 1764,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Cơ hội tốt bắt đầu từ sự chuẩn bị.",
+      "words": 9,
+      "chars": 34,
+      "lines": 2,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.34,
+      "top": 3487,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "TechJob AI",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 120,
+      "vw": 8.3,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.055,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 5271,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 6,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      12,
+      13,
+      14,
+      16,
+      24,
+      32,
+      120
+     ],
+     "sizeCount": 7,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 16,
+      "leading": 1.5,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": null
+     },
+     "measureChars": 61,
+     "max": {
+      "size": 120,
+      "vw": 8.3,
+      "font": "Be Vietnam Pro",
+      "text": "Giỏi công nghệ."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.03,
+     "centerShare": 0.21,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#faf8ff",
+     "bodyBgHsl": {
+      "h": 257,
+      "s": 1,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f3ff",
+       "top": 140,
+       "hsl": {
+        "h": 235,
+        "s": 1,
+        "l": 0.97
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2107,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#131b2e",
+       "share": 0.67
+      },
+      {
+       "color": "#465164",
+       "share": 0.16
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.07
+      },
+      {
+       "color": "#475569",
+       "share": 0.06
+      },
+      {
+       "color": "#006b2c",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#006b2c",
+      "hsl": {
+       "h": 145,
+       "s": 1,
+       "l": 0.21
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 7,
+     "inHero": 5,
+     "radius": 0,
+     "height": 48,
+     "withShadow": 6,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Bỏ qua menu",
+      "English",
+      "Đăng nhập",
+      "Tìm việc ngay",
+      "Xem hồ sơ của tôi"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 6,
+     "shadowOverlay": 4,
+     "shadowSamples": [
+      "nav.navbar-custom → rgba(15, 23, 42, 0.03) 0px 1px 2px 0px",
+      "a.nav-btn → rgba(15, 23, 42, 0.04) 0px 1px 2px 0px",
+      "section.tracking-card.tj-container → rgba(15, 23, 42, 0.06) 0px 4px 12px -2px, rgba(15, 23, 42, 0.04) 0px 2px 4px -2p",
+      "a.tracking-btn → rgba(22, 163, 74, 0.18) 0px 1px 2px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "section.tracking-card.tj-container → linear-gradient(135deg, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 100%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 5,
+     "hairlineSamples": [
+      "nav.navbar-custom 1440px",
+      "section.hero-search-section.tj-career-hero 1440px",
+      "div.filter-sidebar-header 285px",
+      "div.jobs-list-header 929px",
+      "footer.tj-footer 1440px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 2,
+     "blurred": 1,
+     "roundedBoxes": 3,
+     "boxRadius": 16,
+     "squareMedia": 4,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 2107
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 9,
+     "fixed": false,
+     "height": 70,
+     "floatingPill": false,
+     "blur": true
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 5439,
+    "margins": {
+     "left": 36,
+     "right": 68
+    },
+    "sections": [
+     {
+      "sel": "section.hero-search-section.tj-career-hero",
+      "tag": "section",
+      "top": 140,
+      "height": 596,
+      "words": 52,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Giỏi công nghệ.",
+       "size": 120,
+       "tag": "h1"
+      },
+      "left": 36,
+      "right": 325,
+      "textLeft": 36,
+      "textRight": 349,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.job-board-layout-container",
+      "tag": "div",
+      "top": 944,
+      "height": 708,
+      "words": 44,
+      "media": 0,
+      "middle": 160,
+      "heading": {
+       "text": "Cơ hội việc làm IT",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 93,
+      "right": 68,
+      "textLeft": 93,
+      "textRight": 68,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.tj-container.tj-company-section",
+      "tag": "section",
+      "top": 1716,
+      "height": 247,
+      "words": 15,
+      "media": 0,
+      "middle": 793,
+      "heading": {
+       "text": "Công ty tuyển dụng hàng đầu",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 68,
+      "right": 68,
+      "textLeft": 68,
+      "textRight": 68,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.tj-container.tj-practice-promo",
+      "tag": "section",
+      "top": 2067,
+      "height": 3049,
+      "words": 74,
+      "media": 4,
+      "middle": 65,
+      "heading": null,
+      "left": 68,
+      "right": 68,
+      "textLeft": 68,
+      "textRight": 245,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.tj-footer",
+      "tag": "footer",
+      "top": 5228,
+      "height": 211,
+      "words": 13,
+      "media": 0,
+      "middle": 261,
+      "heading": {
+       "text": "TechJob AI",
+       "size": 120,
+       "tag": "strong"
+      },
+      "left": 32,
+      "right": 32,
+      "textLeft": 32,
+      "textRight": 32,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+      "size": 120,
+      "top": 182,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 68,
+      "n": 3
+     },
+     {
+      "x": 93,
+      "n": 3
+     },
+     {
+      "x": 36,
+      "n": 2
+     },
+     {
+      "x": 443,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 9,
+    "bodySize": 16,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0.15,
+    "voidBox": {
+     "x": 1140,
+     "y": 120,
+     "w": 300,
+     "h": 660
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    0.81,
+    0.67,
+    0.87,
+    1,
+    1,
+    0.93
+   ],
+   "motion": {
+    "elements": 15,
+    "css": 2,
+    "transitions": 13,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 5771,
+     "screens": 5.6,
+     "words": 255,
+     "img": 4,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 9,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 2,
+     "uiAbuse": false,
+     "realPictures": 4,
+     "videoCount": 0,
+     "uiPictures": 2,
+     "pictureSamples": [
+      "coding-programming.jpg",
+      "programmer-at-work-unsplash.jpg",
+      "software-developer-at-work-03.jpg",
+      "programmers.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+     "words": 7,
+     "chars": 33,
+     "lines": 2,
+     "size": 64.5,
+     "vw": 8.4,
+     "font": "Be Vietnam Pro",
+     "weight": 700,
+     "tracking": -0.055,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.96,
+     "top": 176,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+     "words": 7,
+     "lines": 2,
+     "size": 64.5,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+      "words": 7,
+      "chars": 33,
+      "lines": 2,
+      "size": 64.5,
+      "vw": 8.4,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.055,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 176,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Cơ hội việc làm IT",
+      "words": 5,
+      "chars": 18,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.34,
+      "top": 1502,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Công ty tuyển dụng hàng đầu",
+      "words": 6,
+      "chars": 27,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.57,
+      "top": 1794,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Cơ hội tốt bắt đầu từ sự chuẩn bị.",
+      "words": 9,
+      "chars": 34,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.68,
+      "top": 2200,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "TechJob AI",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 64.5,
+      "vw": 8.4,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.055,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 5568,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 6,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      13,
+      16,
+      24,
+      32,
+      65
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 16,
+      "leading": 1.5,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": null
+     },
+     "measureChars": 65,
+     "max": {
+      "size": 64.5,
+      "vw": 8.4,
+      "font": "Be Vietnam Pro",
+      "text": "Giỏi công nghệ."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.03,
+     "centerShare": 0.23,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#faf8ff",
+     "bodyBgHsl": {
+      "h": 257,
+      "s": 1,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f3ff",
+       "top": 140,
+       "hsl": {
+        "h": 235,
+        "s": 1,
+        "l": 0.97
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2405,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#131b2e",
+       "share": 0.72
+      },
+      {
+       "color": "#465164",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.07
+      },
+      {
+       "color": "#006b2c",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#006b2c",
+      "hsl": {
+       "h": 145,
+       "s": 1,
+       "l": 0.21
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 5,
+     "inHero": 3,
+     "radius": 0,
+     "height": 48,
+     "withShadow": 5,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Bỏ qua menu",
+      "Tìm việc ngay",
+      "Xem hồ sơ của tôi"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 5,
+     "shadowOverlay": 4,
+     "shadowSamples": [
+      "nav.navbar-custom → rgba(15, 23, 42, 0.03) 0px 1px 2px 0px",
+      "section.tracking-card.tj-container → rgba(15, 23, 42, 0.06) 0px 4px 12px -2px, rgba(15, 23, 42, 0.04) 0px 2px 4px -2p",
+      "a.tracking-btn → rgba(22, 163, 74, 0.18) 0px 1px 2px 0px",
+      "aside.filter-sidebar → rgba(15, 23, 42, 0.04) 0px 1px 2px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "section.tracking-card.tj-container → linear-gradient(135deg, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 100%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 5,
+     "hairlineSamples": [
+      "nav.navbar-custom 768px",
+      "section.hero-search-section.tj-career-hero 768px",
+      "div.filter-sidebar-header 686px",
+      "div.jobs-list-header 736px",
+      "footer.tj-footer 768px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 2,
+     "blurred": 1,
+     "roundedBoxes": 5,
+     "boxRadius": 16,
+     "squareMedia": 4,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 2405
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 70,
+     "floatingPill": false,
+     "blur": true
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 5771,
+    "margins": {
+     "left": 16,
+     "right": 24
+    },
+    "sections": [
+     {
+      "sel": "section.hero-search-section.tj-career-hero",
+      "tag": "section",
+      "top": 140,
+      "height": 661,
+      "words": 52,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Giỏi công nghệ.",
+       "size": 65,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 29,
+      "textLeft": 16,
+      "textRight": 228,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.tracking-card.tj-container",
+      "tag": "section",
+      "top": 829,
+      "height": 128,
+      "words": 26,
+      "media": 0,
+      "middle": 67,
+      "heading": {
+       "text": "Hành trình ứng tuyển của bạn",
+       "size": 24,
+       "tag": "h3"
+      },
+      "left": 37,
+      "right": 93,
+      "textLeft": 37,
+      "textRight": 93,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.job-board-layout-container",
+      "tag": "div",
+      "top": 1045,
+      "height": 636,
+      "words": 44,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cơ hội việc làm IT",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 16,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.tj-container.tj-company-section",
+      "tag": "section",
+      "top": 1746,
+      "height": 310,
+      "words": 15,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Công ty tuyển dụng hàng đầu",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 297,
+      "textLeft": 32,
+      "textRight": 297,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.tj-practice-copy",
+      "tag": "div",
+      "top": 2200,
+      "height": 173,
+      "words": 36,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cơ hội tốt bắt đầu từ sự chuẩn bị.",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 32,
+      "right": 241,
+      "textLeft": 32,
+      "textRight": 241,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.tj-practice-gallery",
+      "tag": "div",
+      "top": 2405,
+      "height": 2969,
+      "words": 38,
+      "media": 3,
+      "middle": 16,
+      "heading": null,
+      "left": 32,
+      "right": 32,
+      "textLeft": 44,
+      "textRight": 178,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.tj-footer",
+      "tag": "footer",
+      "top": 5526,
+      "height": 245,
+      "words": 13,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "TechJob AI",
+       "size": 65,
+       "tag": "strong"
+      },
+      "left": 414,
+      "right": 32,
+      "textLeft": 414,
+      "textRight": 32,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+      "size": 65,
+      "top": 176,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 32,
+      "n": 6
+     },
+     {
+      "x": 16,
+      "n": 3
+     }
+    ],
+    "leftBlocks": 9,
+    "bodySize": 16,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 7,
+   "filled": [
+    0.89,
+    0.74,
+    0.66,
+    1,
+    1,
+    1,
+    0.93
+   ],
+   "motion": {
+    "elements": 15,
+    "css": 2,
+    "transitions": 13,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 5735,
+     "screens": 6.8,
+     "words": 255,
+     "img": 4,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 9,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 2,
+     "uiAbuse": false,
+     "realPictures": 4,
+     "videoCount": 0,
+     "uiPictures": 2,
+     "pictureSamples": [
+      "coding-programming.jpg",
+      "programmer-at-work-unsplash.jpg",
+      "software-developer-at-work-03.jpg",
+      "programmers.jpg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+     "words": 7,
+     "chars": 33,
+     "lines": 2,
+     "size": 34,
+     "vw": 8.7,
+     "font": "Be Vietnam Pro",
+     "weight": 700,
+     "tracking": -0.055,
+     "leading": 1,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.92,
+     "top": 176,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+     "words": 7,
+     "lines": 2,
+     "size": 34,
+     "font": "Be Vietnam Pro"
+    },
+    "headings": [
+     {
+      "text": "</> TechJob AI",
+      "words": 3,
+      "chars": 14,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.04,
+      "leading": 1.5,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.43,
+      "top": 15,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+      "words": 7,
+      "chars": 33,
+      "lines": 2,
+      "size": 34,
+      "vw": 8.7,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.055,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 176,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Hành trình ứng tuyển của bạn",
+      "words": 6,
+      "chars": 28,
+      "lines": 2,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.025,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.81,
+      "top": 773,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Bộ lọc tìm kiếm",
+      "words": 4,
+      "chars": 15,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.025,
+      "leading": 1.25,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.45,
+      "top": 1049,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Cơ hội việc làm IT",
+      "words": 5,
+      "chars": 18,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.68,
+      "top": 1492,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Công ty tuyển dụng hàng đầu",
+      "words": 6,
+      "chars": 27,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 1826,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Cơ hội tốt bắt đầu từ sự chuẩn bị.",
+      "words": 9,
+      "chars": 34,
+      "lines": 2,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.035,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 2179,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "TechJob AI",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 34,
+      "vw": 8.7,
+      "font": "Be Vietnam Pro",
+      "weight": 700,
+      "tracking": -0.055,
+      "leading": 0.95,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.42,
+      "top": 5568,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 8,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 5,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Be Vietnam Pro",
+       "share": 1,
+       "mono": false
+      }
+     ],
+     "familyCount": 1,
+     "sizes": [
+      13,
+      16,
+      24,
+      32,
+      34
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": {
+      "font": "Be Vietnam Pro",
+      "size": 16,
+      "leading": 1.5,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": null
+     },
+     "measureChars": 45,
+     "max": {
+      "size": 34,
+      "vw": 8.7,
+      "font": "Be Vietnam Pro",
+      "text": "Giỏi công nghệ."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.03,
+     "centerShare": 0.26,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#faf8ff",
+     "bodyBgHsl": {
+      "h": 257,
+      "s": 1,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f3ff",
+       "top": 140,
+       "hsl": {
+        "h": 235,
+        "s": 1,
+        "l": 0.97
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 2440,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#131b2e",
+       "share": 0.72
+      },
+      {
+       "color": "#465164",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.07
+      },
+      {
+       "color": "#006b2c",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#006b2c",
+      "hsl": {
+       "h": 145,
+       "s": 1,
+       "l": 0.21
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 5,
+     "inHero": 2,
+     "radius": 0,
+     "height": 48,
+     "withShadow": 5,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Bỏ qua menu",
+      "Tìm việc ngay"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 5,
+     "shadowOverlay": 4,
+     "shadowSamples": [
+      "nav.navbar-custom → rgba(15, 23, 42, 0.03) 0px 1px 2px 0px",
+      "section.tracking-card.tj-container → rgba(15, 23, 42, 0.06) 0px 4px 12px -2px, rgba(15, 23, 42, 0.04) 0px 2px 4px -2p",
+      "a.tracking-btn → rgba(22, 163, 74, 0.18) 0px 1px 2px 0px",
+      "aside.filter-sidebar → rgba(15, 23, 42, 0.04) 0px 1px 2px 0px"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "section.tracking-card.tj-container → linear-gradient(135deg, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 100%)"
+     ],
+     "gradientText": 0,
+     "hairlines": 5,
+     "hairlineSamples": [
+      "nav.navbar-custom 390px",
+      "section.hero-search-section.tj-career-hero 390px",
+      "div.filter-sidebar-header 320px",
+      "div.jobs-list-header 358px",
+      "footer.tj-footer 390px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 2,
+     "blurred": 1,
+     "roundedBoxes": 5,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 2440
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 1,
+     "fixed": false,
+     "height": 70,
+     "floatingPill": false,
+     "blur": true
+    },
+    "fontsLoaded": [
+     "be vietnam pro"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 5735,
+    "margins": {
+     "left": 16,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "section.hero-search-section.tj-career-hero",
+      "tag": "section",
+      "top": 140,
+      "height": 584,
+      "words": 52,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Giỏi công nghệ.",
+       "size": 34,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 31,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.tracking-card.tj-container",
+      "tag": "section",
+      "top": 752,
+      "height": 222,
+      "words": 26,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Hành trình ứng tuyển của bạn",
+       "size": 24,
+       "tag": "h3"
+      },
+      "left": 37,
+      "right": 52,
+      "textLeft": 37,
+      "textRight": 52,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.job-board-layout-container",
+      "tag": "div",
+      "top": 1030,
+      "height": 695,
+      "words": 44,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cơ hội việc làm IT",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 35,
+      "textLeft": 16,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.tj-container.tj-company-section",
+      "tag": "section",
+      "top": 1790,
+      "height": 289,
+      "words": 15,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Công ty tuyển dụng hàng đầu",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 82,
+      "textLeft": 16,
+      "textRight": 82,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.tj-practice-copy",
+      "tag": "div",
+      "top": 2179,
+      "height": 234,
+      "words": 36,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cơ hội tốt bắt đầu từ sự chuẩn bị.",
+       "size": 32,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 23,
+      "textLeft": 16,
+      "textRight": 23,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "div.tj-practice-gallery",
+      "tag": "div",
+      "top": 2440,
+      "height": 2986,
+      "words": 38,
+      "media": 3,
+      "middle": 10,
+      "heading": null,
+      "left": 16,
+      "right": 16,
+      "textLeft": 24,
+      "textRight": 26,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.tj-footer",
+      "tag": "footer",
+      "top": 5535,
+      "height": 200,
+      "words": 13,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "TechJob AI",
+       "size": 34,
+       "tag": "strong"
+      },
+      "left": 16,
+      "right": 118,
+      "textLeft": 16,
+      "textRight": 118,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Giỏi công nghệ. Chọn đúng cơ hội.",
+      "size": 34,
+      "top": 176,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 16,
+      "n": 6
+     },
+     {
+      "x": 35,
+      "n": 3
+     }
+    ],
+    "leftBlocks": 9,
+    "bodySize": 16,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "gradient",
+   "width": 1440,
+   "message": "1 gradient fill(s): section.tracking-card.tj-container → linear-gradient(135deg, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 100%)",
+   "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "shadow",
+   "width": 1440,
+   "message": "6 box-shadow(s) on elements at rest: nav.navbar-custom → rgba(15, 23, 42, 0.03) 0px 1px 2px 0px | a.nav-btn → rgba(15, 23, 42, 0.04) 0px 1px 2px 0px | section.tracking-card.tj-container → rgba(15, 23, 42, 0.06) 0px 4px 12px -2px, rgba(15, 23, 42, 0.04) 0px 2px 4px -2p",
+   "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "button-fx",
+   "width": 1440,
+   "message": "Buttons with shadow/glow.",
+   "fix": "Flat fill, one colour.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "hairline",
+   "width": 1440,
+   "message": "5 thin rule(s)/divider line(s): nav.navbar-custom 1440px | section.hero-search-section.tj-career-hero 1440px | div.filter-sidebar-header 285px | div.jobs-list-header 929px",
+   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "outlined-box",
+   "width": 1440,
+   "message": "3 boxes drawn with a 1px outline.",
+   "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "dashed",
+   "width": 1440,
+   "message": "2 dashed/dotted border(s).",
+   "fix": "Remove unless it is a real drop zone.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "off-centre",
+   "width": 1440,
+   "message": "The margins differ: 36px on the left, 68px on the right, at 1440px.",
+   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page."
+  },
+  {
+   "level": "WARN",
+   "id": "empty-middle",
+   "width": 1440,
+   "message": "1 section(s) have content at both edges and 793px of nothing between: \"Công ty tuyển dụng hàng đầu\"",
+   "fix": "Bring the two parts together on the grid, or put the picture or figure of the section in the middle. An empty middle third reads as a hole, the same as an empty half."
+  },
+  {
+   "level": "WARN",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Little motion: 15 element(s) moved while the page loaded and scrolled.",
+   "fix": "Give every section an entrance for its parts (not one fade of the whole block) and add one moving picture: a looping clip or a slow move on a photograph."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\desktop-fold.jpg",
+   "pages": [
+    "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\desktop-page-01.jpg",
+    "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\desktop-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\tablet-fold.jpg",
+   "pages": [
+    "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\mobile-fold.jpg",
+   "pages": [
+    "D:\\CNTT23A-CS\\HK1 26-27\\Phat trien pmmnm\\TechJob AI\\.taste-skill\\techjob-public-20261103\\after-round1\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

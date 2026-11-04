@@ -63,6 +63,37 @@ try {
     curl_setopt_array($curl, [CURLOPT_RETURNTRANSFER => true, CURLOPT_POST => true, CURLOPT_COOKIEFILE => $cookies, CURLOPT_HTTPHEADER => ['Content-Type: application/json', 'X-WP-Nonce: ' . $config['nonce']], CURLOPT_POSTFIELDS => json_encode(['mode' => 'demo', 'skill' => 'PHP', 'level' => 'Junior', 'language' => 'vi'])]);
     $reply = json_decode(curl_exec($curl), true); $http_status = curl_getinfo($curl, CURLINFO_RESPONSE_CODE); curl_close($curl);
     verify($http_status === 200 && ($reply['mode'] ?? '') === 'demo' && !empty($reply['message']), 'Real REST request starts demo interview');
+    // Exercise authorization with a valid nonce for this candidate's real HTTP session.
+    wp_set_current_user($test_user->ID);
+    foreach (file($cookies, FILE_IGNORE_NEW_LINES) as $cookie_line) {
+        $parts = explode("\t", $cookie_line);
+        if (count($parts) === 7 && $parts[5] === LOGGED_IN_COOKIE) { $_COOKIE[LOGGED_IN_COOKIE] = rawurldecode($parts[6]); }
+    }
+    $admin_attempt = submit('save_settings', wp_create_nonce('tj_save_settings'), ['model' => 'unauthorized-model']);
+    verify($admin_attempt['status'] === 403, 'Valid candidate nonce cannot authorize an admin action');
+    $bad_profile = submit('profile', wp_create_nonce('tj_profile'), ['full_name' => 'Bad data', 'email' => 'invalid', 'phone' => '<script>bad</script>']);
+    verify(str_contains(urldecode($bad_profile['url']), 'Kiểm tra'), 'Invalid profile input rejected');
+    verify(get_user_by('id', $test_user->ID)->user_email === $login . '@techjob.test', 'Invalid profile does not change persisted email');
+    $invalid_id = request('/tai-cv/999999999/'); verify($invalid_id['status'] === 403, 'Unknown CV ID discloses no file');
+    $new_job = 0;
+    foreach (get_posts(['post_type' => 'tj_job', 'numberposts' => -1]) as $available) { if ($available->ID !== (int)$job_id[1] && tj_job_open($available->ID)) { $new_job = $available->ID; break; } }
+    verify($new_job > 0, 'Second open job exists for inline CV upload');
+    submit('apply', wp_create_nonce('tj_apply'), ['job_id' => $new_job, 'consent' => '1', 'cv' => new CURLFile($file_path, 'application/pdf', 'inline-upload-cv.pdf')]);
+    $inline = $wpdb->get_row($wpdb->prepare('SELECT a.file_id,f.original_name FROM ' . tj_table('applications') . ' a JOIN ' . tj_table('files') . ' f ON a.file_id=f.id WHERE a.user_id=%d AND a.job_id=%d', $test_user->ID, $new_job), ARRAY_A);
+    verify($inline && $inline['original_name'] === 'inline-upload-cv.pdf', 'Inline application uses the newly uploaded CV ID');
+    update_user_meta($test_user->ID, 'tj_disabled', 1);
+    WP_Session_Tokens::get_instance($test_user->ID)->destroy_all();
+    $revoked = request('/tai-khoan/ho-so/'); verify(str_contains($revoked['url'], '/dang-nhap/'), 'Revoked session cannot open protected page');
+    $disabled_login = request('/dang-nhap/?lang=vi');
+    $disabled_result = submit('login', nonce($disabled_login), ['username' => $login, 'password' => $password]);
+    verify(str_contains($disabled_result['url'], 'error='), 'Disabled account cannot sign in with correct password');
+    update_user_meta($test_user->ID, 'tj_disabled', 0);
+    $login_page = request('/dang-nhap/?lang=vi');
+    $wrong_password = submit('login', nonce($login_page), ['username' => $login, 'password' => 'WrongPassword!']);
+    verify(str_contains($wrong_password['url'], 'error='), 'Wrong password rejected');
+    $login_page = request('/dang-nhap/?lang=vi');
+    $logged_in = submit('login', nonce($login_page), ['username' => $login, 'password' => $password]);
+    verify(str_contains($logged_in['url'], '/tai-khoan/'), 'Enabled candidate can sign in again');
     echo "PASS $checks HTTP checks\n";
 } finally {
     global $wpdb;

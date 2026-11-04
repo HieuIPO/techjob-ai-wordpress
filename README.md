@@ -63,7 +63,9 @@ Docker chỉ công khai cổng web trên `127.0.0.1`; database không xuất c�
 - Giao diện Việt/Anh và dữ liệu mẫu hai ngôn ngữ.
 - Widget 5 câu phỏng vấn, demo ghi nhãn và tích hợp Gemini phía máy chủ.
 
-Dữ liệu demo: 6 công ty hư cấu, 24 việc làm IT, 8 ứng viên cùng CV giả lập, 16 hồ sơ và lịch mẫu. Không nhập tài khoản/CV cá nhân từ ATS cũ.
+Bộ dữ liệu mẫu tùy chọn cho môi trường cài mới: 6 công ty hư cấu, 24 việc làm IT, 8 ứng viên cùng CV giả lập, 16 hồ sơ và lịch mẫu. Không nhập tài khoản/CV cá nhân từ ATS cũ.
+
+**Trạng thái hiện tại (04/11/2026):** dữ liệu mẫu và tài khoản ứng viên đã được dọn ở cả Docker lẫn portable theo yêu cầu của chủ dự án. Không chạy seed hoặc khôi phục backup để làm dữ liệu xuất hiện lại. Xem [gói bàn giao](docs/HANDOFF-20261104.md) để biết chức năng, khoảng trống, thay đổi chưa commit và giới hạn kiểm chứng.
 
 ## Gemini
 

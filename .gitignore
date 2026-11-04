@@ -1,6 +1,7 @@
 .env
 .env.*
 !.env.example
+.agents/
 reference/
 runtime/
 backups/

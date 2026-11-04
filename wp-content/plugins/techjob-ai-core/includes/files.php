@@ -21,8 +21,10 @@ function tj_upload_cv(array $file) {
     chmod($dir . '/' . $stored, 0600);
     $ok = $wpdb->insert(tj_table('files'), ['user_id' => get_current_user_id(), 'original_name' => sanitize_file_name($file['name']), 'stored_name' => $stored, 'mime' => $types[$extension], 'size' => $size, 'created_at' => tj_now()]);
     if (!$ok) { unlink($dir . '/' . $stored); return new WP_Error('storage', tj_t('Không thể ghi nhận CV.', 'Could not register CV.')); }
-    tj_audit('upload_cv', (int)$wpdb->insert_id);
-    return (int)$wpdb->insert_id;
+    // The audit insert changes wpdb::insert_id; preserve the file ID first.
+    $file_id = (int)$wpdb->insert_id;
+    tj_audit('upload_cv', $file_id);
+    return $file_id;
 }
 function tj_can_read_file(array $file): bool { return is_user_logged_in() && (tj_admin() || (int)$file['user_id'] === get_current_user_id()); }
 function tj_download_cv(int $id): void {

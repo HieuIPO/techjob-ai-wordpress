@@ -1,7 +1,8 @@
 <?php defined('ABSPATH') || exit; global $wpdb;
 $nav = tj_admin_nav();
-tj_page_heading($nav[$section][1] ?? tj_t('Bảng điều khiển', 'Dashboard'));
+if ($section !== '') { tj_page_heading($nav[$section][1] ?? tj_t('Bảng điều khiển', 'Dashboard')); }
 switch ($section) {
+case '': require TJ_DIR . 'templates/admin-dashboard.php'; break;
 case 'viec-lam': require TJ_DIR . 'templates/admin-jobs.php'; break;
 case 'cong-ty': require TJ_DIR . 'templates/admin-companies.php'; break;
 case 'danh-muc': require TJ_DIR . 'templates/admin-catalog.php'; break;

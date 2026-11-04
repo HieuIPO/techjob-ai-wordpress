@@ -8,10 +8,10 @@ function tj_table(string $name): string {
 function tj_now(): string { return current_time('mysql', true); }
 function tj_admin(): bool { return current_user_can('manage_options'); }
 function tj_candidate(): bool { return in_array('tj_candidate', wp_get_current_user()->roles, true); }
-function tj_audit(string $action, int $id): void { global $wpdb; $wpdb->insert(tj_table('audit'), ['actor_id' => get_current_user_id(), 'action' => $action, 'entity_id' => $id, 'created_at' => tj_now()]); }
-function tj_notify(int $user, string $vi, string $en, string $target): void {
+function tj_audit(string $action, int $id): bool { global $wpdb; return $wpdb->insert(tj_table('audit'), ['actor_id' => get_current_user_id(), 'action' => $action, 'entity_id' => $id, 'created_at' => tj_now()]) !== false; }
+function tj_notify(int $user, string $vi, string $en, string $target): bool {
     global $wpdb;
-    $wpdb->insert(tj_table('notifications'), ['user_id' => $user, 'message' => $vi, 'message_en' => $en, 'target' => $target, 'created_at' => tj_now()]);
+    return $wpdb->insert(tj_table('notifications'), ['user_id' => $user, 'message' => $vi, 'message_en' => $en, 'target' => $target, 'created_at' => tj_now()]) !== false;
 }
 function tj_job_open(int $id): bool { return get_post_type($id) === 'tj_job' && tj_open_policy((string)get_post_status($id), (string)tj_meta($id, 'deadline'), wp_date('Y-m-d')); }
 function tj_job_url(int $id): string { return tj_url('viec-lam/' . get_post_field('post_name', $id)); }
@@ -67,6 +67,6 @@ function tj_limit(string $key, int $limit, int $window): bool {
     global $wpdb;
     $bucket = hash('sha256', $key) . ':' . (int)floor(time() / $window);
     $table = tj_table('limits');
-    $wpdb->query($wpdb->prepare("INSERT INTO $table (bucket,hits) VALUES (%s,1) ON DUPLICATE KEY UPDATE hits=hits+1", $bucket));
+    if ($wpdb->query($wpdb->prepare("INSERT INTO $table (bucket,hits) VALUES (%s,1) ON DUPLICATE KEY UPDATE hits=hits+1", $bucket)) === false) { return false; }
     return (int)$wpdb->get_var($wpdb->prepare("SELECT hits FROM $table WHERE bucket=%s", $bucket)) <= $limit;
 }
