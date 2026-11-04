@@ -12,6 +12,9 @@
 
 - Dữ liệu demo và tài khoản ứng viên đã được xóa ở cả Docker và portable theo trạng thái bàn giao. Không seed bộ demo hoặc phục hồi backup. Chủ dự án đã yêu cầu kiểm thử E2E; được phép tạo tài khoản/việc làm/CV tạm có định danh rõ trong đúng môi trường kiểm thử, rồi chỉ dọn các bản ghi/tệp do lượt test đó tạo.
 - Không xóa, sửa hoặc dọn dữ liệu có trước lượt test; không xóa Admin chính. Nếu không thể xác định an toàn bản ghi/tệp nào do test tạo, dừng phần cleanup đó và báo rõ.
+- Git không chứa database/volume Docker, `.env`, `runtime/` (bao gồm tài khoản), `backups/` hay CV riêng tư. Không kỳ vọng các tệp này có trong clone.
+- `.env.example` mặc định đặt `COMPOSE_PROJECT_NAME=techjob-ai` và port 8080. Khi chạy một clone trên cùng Docker host, phải kiểm tra và đặt project name/port riêng trước; nếu không, có thể đụng container/volume của môi trường cũ.
+- `scripts/setup.ps1` tự cài WordPress, tạo Admin và gọi `scripts/seed.php`. Không chạy setup mặc định trong môi trường hiện tại; muốn E2E từ clone mới thì dùng Compose project/port cô lập và một đường cài đặt không seed.
 - Không chạy `docker compose down -v`; lệnh đó xóa volume dữ liệu.
 - Docker và portable dùng database, tài khoản, CV riêng. Không giả định dữ liệu đồng bộ.
 - CV phải ở kho ngoài webroot, giới hạn PDF/DOC/DOCX 5 MB và chỉ chủ CV/Admin được tải.
@@ -39,7 +42,7 @@
 
 ## Kiểm chứng
 
-- Đọc `scripts/test.ps1` trước khi chạy: các bài integration/HTTP có thể cần việc làm, ứng viên hoặc CV làm fixture. Thực hiện luồng E2E trên Docker `http://localhost:8081/` nếu xác minh URL đúng là TechJob AI; cổng portable `8080` gần đây không phục vụ site.
+- Đọc `scripts/test.ps1` trước khi chạy: các bài integration/HTTP có thể cần việc làm, ứng viên hoặc CV làm fixture. Thực hiện luồng E2E trên Docker `http://localhost:8081/` nếu xác minh URL đúng là TechJob AI và có quyền dùng đúng DB; cổng portable `8080` gần đây không phục vụ site.
 - Không seed bộ dữ liệu demo để làm cho test qua. Có thể tạo fixture E2E nhỏ, tạm thời và có định danh riêng theo yêu cầu chủ dự án; dọn đúng fixture đó sau khi kiểm chứng.
 - Báo rõ lệnh nào đã chạy và giới hạn kiểm tra; kết quả tài liệu cũ không phải bằng chứng cho worktree hiện tại.
 - Địa chỉ Docker trong tài liệu là `http://localhost:8081/`; tại lượt rà soát 2026-11-04, `localhost:8080` không trả TechJob AI. Kiểm tra cổng thực tế trước khi kết luận.
