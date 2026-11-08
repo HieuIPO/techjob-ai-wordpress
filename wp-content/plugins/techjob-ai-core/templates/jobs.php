@@ -149,21 +149,29 @@ $jobs = tj_jobs($filter + ['home' => $route === '']);
     </div>
 </div>
 
-<?php if ($route === '') { $featured_companies = get_posts(['post_type' => 'tj_company', 'numberposts' => 6, 'meta_key' => 'tj_featured', 'meta_value' => '1']); ?>
-    <section class="tj-container tj-company-section<?php echo $featured_companies ? '' : ' tj-company-section-empty'; ?>">
-        <div class="tj-page-heading" data-tj-reveal>
-            <h2><?php tj_e('Công ty tuyển dụng hàng đầu', 'Featured companies'); ?></h2>
-            <a href="<?php echo esc_url(tj_url('cong-ty')); ?>"><?php tj_e('Xem tất cả', 'View all'); ?></a>
+<?php if ($route === '') { $featured_companies = get_posts(['post_type' => 'tj_company', 'numberposts' => 3, 'meta_key' => 'tj_featured', 'meta_value' => '1']); ?>
+    <section id="companies" class="tj-container tj-company-section<?php echo $featured_companies ? '' : ' tj-company-section-empty'; ?>">
+        <div class="tj-company-intro" data-tj-reveal>
+            <span class="tj-eyebrow"><?php tj_e('Nơi bạn thuộc về', 'A place to belong'); ?></span>
+            <h2><?php tj_e('Khám phá công ty hàng đầu', 'Explore leading companies'); ?></h2>
+            <p><?php tj_e('Tìm hiểu văn hóa và cơ hội nghề nghiệp từ các doanh nghiệp uy tín.', 'Discover workplace culture and career opportunities from trusted employers.'); ?></p>
+            <a class="tj-company-discover" href="<?php echo esc_url(tj_url('cong-ty')); ?>"><?php tj_e('Khám phá công ty', 'Explore companies'); ?> <span aria-hidden="true">→</span></a>
         </div>
         <div class="tj-company-grid">
-            <?php
-            if (!$featured_companies) {
-                tj_empty(tj_t('Chưa có công ty nổi bật.', 'No featured companies yet.'));
-            }
-            foreach ($featured_companies as $company) { ?>
-                <a class="tj-panel" data-tj-reveal href="<?php echo esc_url(tj_url('cong-ty', ['company' => $company->ID])); ?>">
-                    <h3><?php echo esc_html(tj_title($company->ID)); ?></h3>
-                    <p class="tj-muted"><?php echo esc_html(tj_meta($company->ID, 'location')); ?></p>
+            <?php if (!$featured_companies) { ?>
+                <div class="tj-company-empty-card" data-tj-reveal>
+                    <span class="tj-company-empty-mark" aria-hidden="true">✳</span>
+                    <strong><?php tj_e('Công ty nổi bật đang được cập nhật', 'Featured companies are being updated'); ?></strong>
+                    <span><?php tj_e('Danh sách sẽ hiển thị tại đây khi có hồ sơ công ty được công khai.', 'Company profiles will appear here when they are published.'); ?></span>
+                </div>
+            <?php } ?>
+            <?php foreach ($featured_companies as $company) {
+                $company_jobs = get_posts(['post_type' => 'tj_job', 'post_status' => 'publish', 'numberposts' => -1, 'meta_key' => 'tj_company_id', 'meta_value' => $company->ID]); ?>
+                <a class="tj-panel tj-company-card" data-tj-reveal href="<?php echo esc_url(tj_url('cong-ty', ['company' => $company->ID])); ?>">
+                    <span class="tj-company-mark" aria-hidden="true"><?php echo esc_html(mb_substr(tj_title($company->ID), 0, 1)); ?></span>
+                    <strong><?php echo esc_html(tj_title($company->ID)); ?></strong>
+                    <span class="tj-company-job-count"><?php echo esc_html(count($company_jobs)); ?> <?php tj_e('việc làm đang tuyển', 'open jobs'); ?></span>
+                    <span class="tj-company-card-arrow" aria-hidden="true">↗</span>
                 </a>
             <?php } ?>
         </div>
