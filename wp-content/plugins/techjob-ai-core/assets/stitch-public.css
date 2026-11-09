@@ -2351,7 +2351,7 @@
 }
 
 .tj-public .tj-field :is(input, select, textarea),
-.tj-public .tj-apply :is(input, select, textarea),
+.tj-public .tj-apply :is(input:not([type="checkbox"]), select, textarea),
 .tj-public .tj-auth :is(input, select, textarea) {
   width: 100%;
   min-height: 48px;

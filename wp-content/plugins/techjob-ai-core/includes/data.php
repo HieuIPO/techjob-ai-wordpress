@@ -39,13 +39,23 @@ function tj_jobs(array $filter = [], bool $admin = false): array {
     $args['orderby'] = ['date' => 'DESC', 'ID' => 'DESC'];
     if (!empty($filter['home'])) { $args['meta_key'] = 'tj_featured'; $args['orderby'] = ['meta_value_num' => 'DESC', 'date' => 'DESC', 'ID' => 'DESC']; }
     if (!empty($filter['q'])) {
-        // Query all matching translated titles/content/company names, then paginate in WP_Query.
+        // Match both languages before handing the matching IDs to WP_Query for pagination.
         $q = mb_strtolower(sanitize_text_field($filter['q']));
         $all = get_posts(['post_type' => 'tj_job', 'post_status' => $args['post_status'], 'numberposts' => -1]);
         $ids = [];
         foreach ($all as $job) {
-            $haystack = $job->post_title . ' ' . $job->post_content . ' ' . tj_meta($job->ID, 'title_en') . ' ' . tj_meta($job->ID, 'description_en') . ' ' . tj_company_name($job->ID);
-            if (str_contains(mb_strtolower($haystack), $q)) { $ids[] = $job->ID; }
+            $company = (int)tj_meta($job->ID, 'company_id');
+            $terms = get_the_terms($job, 'tj_skill');
+            $searchable = [
+                $job->post_title, $job->post_content,
+                tj_meta($job->ID, 'title_en'), tj_meta($job->ID, 'description_en'),
+                $company ? get_the_title($company) : 'TechJob AI', tj_meta($company, 'title_en'),
+            ];
+            foreach (is_array($terms) ? $terms : [] as $term) {
+                $searchable[] = $term->name;
+                $searchable[] = get_term_meta($term->term_id, 'tj_name_en', true);
+            }
+            if (str_contains(mb_strtolower(implode(' ', $searchable)), $q)) { $ids[] = $job->ID; }
         }
         $args['post__in'] = $ids ?: [0];
     }

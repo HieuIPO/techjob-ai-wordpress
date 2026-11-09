@@ -12,6 +12,8 @@ function tj_apply(int $job, int $file_id, string $letter, bool $consent) {
     // Lock the job row so closing the job and applying cannot interleave.
     $status = $wpdb->get_var($wpdb->prepare("SELECT post_status FROM {$wpdb->posts} WHERE ID=%d AND post_type='tj_job' FOR UPDATE", $job));
     if (!$status || !tj_open_policy($status, (string)tj_meta($job, 'deadline'), wp_date('Y-m-d'))) { $wpdb->query('ROLLBACK'); return new WP_Error('closed', tj_t('Tin đã đóng hoặc hết hạn.', 'This job is closed or expired.')); }
+    $existing = $wpdb->get_var($wpdb->prepare('SELECT id FROM ' . tj_table('applications') . ' WHERE user_id=%d AND job_id=%d', $user->ID, $job));
+    if ($existing) { $wpdb->query('ROLLBACK'); return new WP_Error('duplicate', tj_t('Bạn đã ứng tuyển công việc này.', 'You already applied to this job.')); }
     $ok = $wpdb->insert(tj_table('applications'), ['job_id' => $job, 'user_id' => $user->ID, 'file_id' => $file_id, 'candidate_name' => $user->display_name, 'email' => $user->user_email, 'phone' => $phone, 'cover_letter' => mb_substr(sanitize_textarea_field($letter), 0, 5000), 'status' => 'submitted', 'note' => '', 'created_at' => tj_now(), 'updated_at' => tj_now()]);
     if ($ok === false) { $wpdb->query('ROLLBACK'); return new WP_Error('duplicate', tj_t('Bạn đã ứng tuyển công việc này hoặc dữ liệu chưa lưu được.', 'You already applied, or the application could not be saved.')); }
     $id = (int)$wpdb->insert_id;

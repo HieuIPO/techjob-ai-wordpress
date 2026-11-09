@@ -20,9 +20,9 @@ function verify(bool $condition, string $message): void { global $checks; if (!$
 function nonce(array $response): string { preg_match('/name="_tj_nonce" value="([^"]+)"/', $response['body'], $match); if (empty($match[1])) { throw new RuntimeException('Form nonce missing'); } return $match[1]; }
 function submit(string $action, string $nonce, array $values = []): array { return request('/wp-admin/admin-post.php', $values + ['action' => 'tj_action', 'tj_action' => $action, '_tj_nonce' => $nonce]); }
 try {
-    $home = request('/?lang=vi'); verify($home['status'] === 200 && str_contains($home['body'], 'Tìm kiếm công việc mơ ước'), 'Homepage renders');
+    $home = request('/?lang=vi'); verify($home['status'] === 200 && str_contains($home['body'], 'Giỏi công nghệ.'), 'Homepage renders');
     $asset = request('/wp-content/plugins/techjob-ai-core/assets/techjob.css'); verify(str_contains($asset['body'], '.tj-button'), 'Migration stylesheet is served');
-    $english = request('/?lang=en'); verify(str_contains($english['body'], 'Find your next IT opportunity'), 'English homepage');
+    $english = request('/?lang=en'); verify(str_contains($english['body'], 'Build your skills.'), 'English homepage');
     $blocked = request('/quan-tri/'); verify(str_contains($blocked['url'], '/dang-nhap/'), 'Guest admin redirects to sign in');
     $register = request('/dang-ky/?lang=vi');
     $registered = submit('register', nonce($register), ['full_name' => 'HTTP Test Candidate', 'username' => $login, 'email' => $login . '@techjob.test', 'password' => $password]);
@@ -38,7 +38,7 @@ try {
     preg_match('/name="tj_action" value="upload_cv".*?name="_tj_nonce" value="([^"]+)"/s', $page['body'], $upload_nonce);
     file_put_contents($fake_path, '<?php echo "not a pdf";');
     $fake = submit('upload_cv', $upload_nonce[1], ['cv' => new CURLFile($fake_path, 'application/pdf', 'fake.pdf')]);
-    verify(str_contains(urldecode($fake['url']), 'CV phải là'), 'Fake PDF upload rejected');
+    verify($fake['status'] === 200 && str_contains($fake['body'], 'role="alert" class="tj-alert error">CV phải là'), 'Fake PDF rejection displays an error');
     $sample = $GLOBALS['wpdb']->get_row('SELECT * FROM ' . tj_table('files') . ' ORDER BY id LIMIT 1', ARRAY_A);
     copy(tj_private_dir() . '/' . $sample['stored_name'], $file_path);
     $uploaded = submit('upload_cv', $upload_nonce[1], ['cv' => new CURLFile($file_path, 'application/pdf', 'http-test-cv.pdf')]);
@@ -54,7 +54,7 @@ try {
     $applied = submit('apply', nonce($job_page), ['job_id' => $job_id[1], 'file_id' => $file['id'], 'consent' => '1', 'letter' => 'HTTP integration test']);
     verify(str_contains($applied['url'], '/tai-khoan/ung-tuyen/') && str_contains($applied['body'], 'Mới nộp'), 'HTTP application succeeds');
     $again = submit('apply', nonce($job_page), ['job_id' => $job_id[1], 'file_id' => $file['id'], 'consent' => '1']);
-    verify(str_contains(urldecode($again['url']), 'đã ứng tuyển'), 'HTTP duplicate is rejected');
+    verify($again['status'] === 200 && str_contains($again['body'], 'role="alert" class="tj-alert error">Bạn đã ứng tuyển'), 'Duplicate application rejection displays an error');
     $config_page = request('/tai-khoan/?lang=vi');
     preg_match('~<script id="tj-config" type="application/json">(.*?)</script>~s', $config_page['body'], $config_match);
     $config = json_decode($config_match[1], true);

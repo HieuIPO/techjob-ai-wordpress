@@ -27,7 +27,11 @@ function tj_url(string $path = '', array $args = []): string {
     return add_query_arg(array_merge(['lang' => tj_lang()], $query, $args), home_url('/' . trim($parts[0], '/') . ($parts[0] ? '/' : '')));
 }
 function tj_meta(int $id, string $key, $default = '') { $value = get_post_meta($id, 'tj_' . $key, true); return $value === '' ? $default : $value; }
-function tj_title(int $id): string { return tj_lang() === 'en' ? tj_meta($id, 'title_en', get_the_title($id)) : get_the_title($id); }
+function tj_title(int $id): string {
+    // WordPress prefixes private posts on the front end, including closed jobs in application history.
+    $title = get_post_field('post_title', $id);
+    return tj_lang() === 'en' ? tj_meta($id, 'title_en', $title) : $title;
+}
 function tj_content(int $id, string $key = 'description'): string {
     $vi = $key === 'description' ? get_post_field('post_content', $id) : tj_meta($id, $key);
     return tj_lang() === 'en' ? tj_meta($id, $key . '_en', $vi) : $vi;

@@ -7,10 +7,23 @@
     const open = document.querySelector('.nav-links')?.classList.toggle('tj-open');
     menu.setAttribute('aria-expanded', String(!!open));
   });
-  document.querySelector('.tj-sidebar-toggle')?.addEventListener('click', (event) => {
-    const hidden = document.body.classList.toggle('tj-sidebar-hidden');
-    event.currentTarget.setAttribute('aria-expanded', String(!hidden));
-  });
+  const sidebarToggle = document.querySelector('.tj-sidebar-toggle');
+  const sidebar = document.getElementById('tj-admin-sidebar');
+  if (sidebarToggle && sidebar) {
+    const mobile = window.matchMedia('(max-width: 768px)');
+    const syncSidebar = () => {
+      const toggled = document.body.classList.contains('tj-sidebar-hidden');
+      const expanded = mobile.matches ? toggled : !toggled;
+      sidebarToggle.setAttribute('aria-expanded', String(expanded));
+      sidebar.inert = !expanded;
+    };
+    sidebarToggle.addEventListener('click', () => {
+      document.body.classList.toggle('tj-sidebar-hidden');
+      syncSidebar();
+    });
+    mobile.addEventListener('change', syncSidebar);
+    syncSidebar();
+  }
   const profileToggle = document.querySelector('.tj-profile-toggle');
   const profileLinks = document.getElementById('tj-profile-links');
   profileToggle?.addEventListener('click', () => {
