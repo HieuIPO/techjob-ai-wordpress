@@ -1,59 +1,8 @@
 <?php
-/** Run with PHP CLI. TJ_TEST_WP_LOAD may point at another isolated local wp-load.php. */
+/** Self-contained HTTP checks for translations, scorecards and reports. */
 if (PHP_SAPI !== 'cli') { exit; }
-require_once getenv('TJ_TEST_WP_LOAD') ?: dirname(__DIR__) . '/runtime/wordpress/wp-load.php';
-require_once ABSPATH . 'wp-admin/includes/user.php';
-if (wp_get_environment_type() !== 'local' || !in_array(wp_parse_url(home_url(), PHP_URL_HOST), ['localhost', '127.0.0.1', '::1'], true)) {
-    throw new RuntimeException('This suite only runs against a local WordPress installation.');
-}
-$base = home_url();
-$prefix = 'tj_feature_' . bin2hex(random_bytes(5));
-$password = bin2hex(random_bytes(20));
-$jars = []; $users = []; $posts = []; $terms = []; $checks = 0;
-$pdf = tempnam(sys_get_temp_dir(), 'tj-feature-cv-');
-function ft_check(bool $ok, string $message): void {
-    global $checks;
-    if (!$ok) { throw new RuntimeException('FAIL ' . $message); }
-    $checks++;
-    echo "PASS $message\n";
-}
-function ft_request(string $session, string $path, ?array $data = null): array {
-    global $base, $jars;
-    $jars[$session] ??= tempnam(sys_get_temp_dir(), 'tj-feature-cookie-');
-    $curl = curl_init($base . $path);
-    curl_setopt_array($curl, [CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true, CURLOPT_MAXREDIRS => 4, CURLOPT_TIMEOUT => 30, CURLOPT_COOKIEJAR => $jars[$session], CURLOPT_COOKIEFILE => $jars[$session], CURLOPT_NOPROXY => '*']);
-    if ($data !== null) { curl_setopt($curl, CURLOPT_POSTFIELDS, $data); }
-    $body = curl_exec($curl);
-    if ($body === false) { throw new RuntimeException(curl_error($curl)); }
-    $response = ['body' => $body, 'code' => curl_getinfo($curl, CURLINFO_RESPONSE_CODE), 'type' => curl_getinfo($curl, CURLINFO_CONTENT_TYPE), 'url' => curl_getinfo($curl, CURLINFO_EFFECTIVE_URL)];
-    curl_close($curl);
-    return $response;
-}
-function ft_form(array $page, string $action, string $predicate = ''): array {
-    $doc = new DOMDocument();
-    @$doc->loadHTML('<?xml encoding="UTF-8">' . $page['body'], LIBXML_NONET);
-    $xpath = new DOMXPath($doc);
-    $form = $xpath->query("//form[.//input[@name='tj_action' and @value='$action']]" . $predicate)->item(0);
-    if (!$form) { throw new RuntimeException("Missing form $action"); }
-    $data = [];
-    foreach ($xpath->query(".//input[@type='hidden']", $form) as $input) { $data[$input->getAttribute('name')] = $input->getAttribute('value'); }
-    return $data;
-}
-function ft_submit(string $session, array $page, string $action, array $data = [], string $predicate = ''): array {
-    return ft_request($session, '/wp-admin/admin-post.php', $data + ft_form($page, $action, $predicate));
-}
-function ft_saved(array $response): bool { return $response['code'] === 200 && str_contains($response['url'], 'notice='); }
-function ft_nonce(string $session, int $user, string $action): string {
-    global $jars;
-    wp_set_current_user($user);
-    foreach (file($jars[$session], FILE_IGNORE_NEW_LINES) as $line) {
-        $parts = explode("\t", $line);
-        if (count($parts) === 7 && $parts[5] === LOGGED_IN_COOKIE) { $_COOKIE[LOGGED_IN_COOKIE] = rawurldecode($parts[6]); }
-    }
-    $nonce = wp_create_nonce('tj_' . $action);
-    unset($_COOKIE[LOGGED_IN_COOKIE]);
-    return $nonce;
-}
+require __DIR__ . '/recruitment-support.php';
+
 try {
     foreach (['admin' => 'administrator', 'candidate' => 'tj_candidate'] as $session => $role) {
         $uid = wp_insert_user(['user_login' => "$prefix-$session", 'user_email' => "$prefix-$session@example.test", 'user_pass' => $password, 'display_name' => "$prefix $session", 'role' => $role]);
@@ -93,6 +42,24 @@ try {
     $fallback = ft_request('guest', $path . '?lang=en');
     ft_check(str_contains($fallback['body'], $input['title']) && str_contains($fallback['body'], $input['requirements']), 'Empty translations fall back to Vietnamese');
     ft_check(ft_saved(ft_submit('admin', $edit, 'save_job', $input)), 'Restore translations');
+    $extra_skill = wp_insert_term("$prefix Second skill", 'tj_skill');
+    if (is_wp_error($extra_skill)) { throw new RuntimeException($extra_skill->get_error_message()); }
+    $additional_terms[] = [(int)$extra_skill['term_id'], 'tj_skill'];
+    $multi_input = $input;
+    unset($multi_input['skill[]']);
+    $multi_input['skill[0]'] = $terms['skill'];
+    $multi_input['skill[1]'] = $extra_skill['term_id'];
+    ft_check(ft_saved(ft_submit('admin', $edit, 'save_job', $multi_input)), 'Save two skills from checkbox form');
+    clean_object_term_cache($job, 'tj_job');
+    ft_check(count(wp_get_post_terms($job, 'tj_skill')) === 2, 'Both selected skills persist');
+    $two_skills = ft_request('admin', "/quan-tri/viec-lam/?edit=$job");
+    $skill_dom = new DOMDocument(); @$skill_dom->loadHTML($two_skills['body'], LIBXML_NONET);
+    ft_check((new DOMXPath($skill_dom))->query('//input[@name="skill[]" and @checked]')->length === 2, 'Editing restores both checked skills');
+    $clear_skills = $input; unset($clear_skills['skill[]']);
+    $cleared = ft_submit('admin', $edit, 'save_job', $clear_skills);
+    clean_object_term_cache($job, 'tj_job');
+    ft_check(ft_saved($cleared) && count(wp_get_post_terms($job, 'tj_skill')) === 0, 'Unchecking all skills clears saved selection');
+    ft_check(ft_saved(ft_submit('admin', $edit, 'save_job', $input)), 'Restore original selected skill');
     $term = $terms['skill'];
     $predicate = "[.//input[@name='taxonomy' and @value='tj_skill'] and .//input[@name='id' and @value='$term']]";
     ft_check(ft_saved(ft_submit('admin', ft_request('admin', '/quan-tri/danh-muc/'), 'save_term', ['name' => "$prefix skill VI", 'name_en' => ''], $predicate)), 'Clear optional taxonomy translation');
@@ -102,6 +69,22 @@ try {
     $profile = ft_request('candidate', '/tai-khoan/ho-so/');
     ft_check(ft_saved(ft_submit('candidate', $profile, 'upload_cv', ['cv' => new CURLFile($pdf, 'application/pdf', "$prefix.pdf")])), 'Upload fictional test PDF');
     $file = (int)$wpdb->get_var($wpdb->prepare('SELECT id FROM ' . tj_table('files') . ' WHERE user_id=%d', $users['candidate']));
+    $docx = $pdf . '.docx'; $temporary_files[] = $docx;
+    $zip = new ZipArchive(); $zip->open($docx, ZipArchive::CREATE);
+    $zip->addFromString('[Content_Types].xml', '<?xml version="1.0"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>');
+    $zip->addFromString('_rels/.rels', '<?xml version="1.0"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>');
+    $zip->addFromString('word/document.xml', '<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Fictional recruitment test CV</w:t></w:r></w:p></w:body></w:document>');
+    $zip->close();
+    ft_check(ft_saved(ft_submit('candidate', $profile, 'upload_cv', ['cv' => new CURLFile($docx, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', "$prefix.docx")])), 'Upload valid OpenXML DOCX through HTTP');
+    $docx_id = (int)$wpdb->get_var($wpdb->prepare('SELECT id FROM ' . tj_table('files') . ' WHERE user_id=%d AND original_name=%s', $users['candidate'], "$prefix.docx"));
+    ft_check(ft_request('candidate', "/tai-cv/$docx_id/")['body'] === file_get_contents($docx), 'DOCX download preserves exact bytes');
+    $large = $pdf . '.large'; $temporary_files[] = $large;
+    file_put_contents($large, "%PDF-1.4\n" . str_repeat(' ', 5 * 1024 * 1024 - 9));
+    ft_check(filesize($large) === 5 * 1024 * 1024 && ft_saved(ft_submit('candidate', $profile, 'upload_cv', ['cv' => new CURLFile($large, 'application/pdf', "$prefix-limit.pdf")])), 'A 5 MB PDF is accepted');
+    file_put_contents($large, ' ', FILE_APPEND);
+    $before_limit = (int)$wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM ' . tj_table('files') . ' WHERE user_id=%d', $users['candidate']));
+    $too_large = ft_submit('candidate', $profile, 'upload_cv', ['cv' => new CURLFile($large, 'application/pdf', "$prefix-too-large.pdf")]);
+    ft_check(str_contains($too_large['body'], 'CV phải là PDF') && $before_limit === (int)$wpdb->get_var($wpdb->prepare('SELECT COUNT(*) FROM ' . tj_table('files') . ' WHERE user_id=%d', $users['candidate'])), 'A PDF over 5 MB is rejected without a file record');
     ft_check(ft_saved(ft_submit('candidate', ft_request('candidate', $path), 'apply', ['file_id' => $file, 'consent' => '1'])), 'Apply with translated job sharing one application');
     $app = (int)$wpdb->get_var($wpdb->prepare('SELECT id FROM ' . tj_table('applications') . ' WHERE user_id=%d AND job_id=%d', $users['candidate'], $job));
     $schedule = ['application_id' => $app, 'scheduled_at' => wp_date('Y-m-d\T10:00', time() + 3 * DAY_IN_SECONDS), 'location' => "$prefix Meeting", 'result' => 'pending'];
@@ -186,26 +169,4 @@ try {
     ft_check(count(preg_split('/\r?\n/', trim(ft_submit('admin', $empty, 'export_report')['body']))) === 1, 'Empty CSV contains only header');
     ft_check(str_contains(ft_request('admin', "/quan-tri/bao-cao/?from=2098-02-30&to=2098-03-01")['body'], 'role="alert"'), 'Invalid report page has visible alert');
     echo "PASS $checks recruitment feature checks\n";
-} finally {
-    wp_set_current_user(0);
-    foreach ($users as $uid) {
-        $apps = $wpdb->get_col($wpdb->prepare('SELECT id FROM ' . tj_table('applications') . ' WHERE user_id=%d', $uid));
-        foreach ($apps as $id) {
-            $interviews = $wpdb->get_col($wpdb->prepare('SELECT id FROM ' . tj_table('interviews') . ' WHERE application_id=%d', $id));
-            foreach ($interviews as $iid) { $wpdb->delete(tj_table('evaluations'), ['interview_id' => $iid]); }
-            foreach (['interviews', 'history'] as $table) { $wpdb->delete(tj_table($table), ['application_id' => $id]); }
-            $wpdb->delete(tj_table('notifications'), ['target' => 'quan-tri/ho-so?application=' . $id]);
-        }
-        foreach (tj_rows('files', 100, $uid) as $file) {
-            $path = tj_private_dir() . '/' . basename($file['stored_name']);
-            if (is_file($path)) { unlink($path); }
-        }
-        foreach (['applications', 'files', 'notifications', 'saved'] as $table) { $wpdb->delete(tj_table($table), ['user_id' => $uid]); }
-        $wpdb->delete(tj_table('audit'), ['actor_id' => $uid]);
-        wp_delete_user($uid);
-    }
-    foreach (array_reverse($posts) as $id) { wp_delete_post($id, true); }
-    foreach ($terms as $tax => $id) { wp_delete_term($id, 'tj_' . $tax); }
-    foreach (array_merge(array_values($jars), [$pdf]) as $path) { if (is_file($path)) { unlink($path); } }
-    echo "Removed only this suite's users, posts, taxonomy and recruitment fixtures.\n";
-}
+} finally { ft_cleanup(); }

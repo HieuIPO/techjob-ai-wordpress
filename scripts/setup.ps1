@@ -1,4 +1,8 @@
-param([ValidateRange(1024,65535)][int]$Port = 8080)
+param(
+    [ValidateRange(1024,65535)][int]$Port = 8080,
+    [ValidatePattern('^[a-z0-9][a-z0-9_-]*$')][string]$ProjectName,
+    [switch]$SkipDemo
+)
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 function Invoke-Compose { & docker compose @args; if ($LASTEXITCODE -ne 0) { throw "Docker Compose failed: $args" } }
@@ -11,11 +15,21 @@ if (Test-Path '.env') {
         else { $configuration += "`nTECHJOB_PORT=$Port`n" }
         [System.IO.File]::WriteAllText((Join-Path (Get-Location) '.env'), $configuration, [System.Text.UTF8Encoding]::new($false))
     }
+    if ($PSBoundParameters.ContainsKey('ProjectName')) {
+        if ($configuration -match '(?m)^COMPOSE_PROJECT_NAME=') {
+            $configuration = [regex]::Replace($configuration, '(?m)^COMPOSE_PROJECT_NAME=.*', "COMPOSE_PROJECT_NAME=$ProjectName")
+        } else { $configuration += "`nCOMPOSE_PROJECT_NAME=$ProjectName`n" }
+        [System.IO.File]::WriteAllText((Join-Path (Get-Location) '.env'), $configuration, [System.Text.UTF8Encoding]::new($false))
+    }
 }
 if (!(Test-Path '.env')) {
     $dbPassword = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(24))
     $rootPassword = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(24))
     (Get-Content '.env.example' -Raw).Replace('TECHJOB_PORT=8080', "TECHJOB_PORT=$Port").Replace('DB_PASSWORD=', "DB_PASSWORD=$dbPassword").Replace('DB_ROOT_PASSWORD=', "DB_ROOT_PASSWORD=$rootPassword") | Set-Content '.env' -Encoding utf8
+    if ($PSBoundParameters.ContainsKey('ProjectName')) {
+        $configuration = (Get-Content '.env' -Raw).Replace('COMPOSE_PROJECT_NAME=techjob-ai', "COMPOSE_PROJECT_NAME=$ProjectName")
+        [System.IO.File]::WriteAllText((Join-Path (Get-Location) '.env'), $configuration, [System.Text.UTF8Encoding]::new($false))
+    }
 }
 Invoke-Compose up -d wordpress
 $ready = $false
@@ -30,7 +44,7 @@ Invoke-Compose run --rm cli theme activate techjob-ai
 Invoke-Compose run --rm cli option update timezone_string Asia/Ho_Chi_Minh
 Invoke-Compose run --rm cli option update permalink_structure '/%postname%/'
 Invoke-Compose run --rm cli rewrite flush
-Invoke-Compose run --rm cli eval-file techjob-scripts/seed.php
+if (!$SkipDemo) { Invoke-Compose run --rm cli eval-file techjob-scripts/seed.php }
 New-Item -ItemType Directory -Path runtime -Force | Out-Null
 Invoke-Compose exec -T wordpress cat /var/techjob-private/demo-accounts.txt | Set-Content runtime/demo-accounts.txt -Encoding utf8
 Write-Host "TechJob AI: http://localhost:$Port | Tai khoan: runtime/demo-accounts.txt"

@@ -1,20 +1,22 @@
 # Hướng dẫn test tay TechJob AI
 
-Ba phần được bổ sung trong nhánh codex/recruitment-features gồm nhập nội dung Việt/Anh, báo cáo tuyển dụng và CSV, phiếu đánh giá phỏng vấn. Thực hiện theo thứ tự bên dưới để cùng một bộ dữ liệu đi qua toàn bộ luồng.
+Nhánh bàn giao final-project gồm ba phần bổ sung: nhập nội dung Việt/Anh, báo cáo tuyển dụng và CSV, phiếu đánh giá phỏng vấn. Thực hiện theo thứ tự bên dưới để cùng một bộ dữ liệu đi qua toàn bộ luồng.
 
-## Chuẩn bị trên máy hiện tại
+## Chuẩn bị
 
-1. Mở http://localhost:18781/ và http://localhost:18781/dang-nhap/?lang=vi.
-2. Tài khoản Admin cài đặt nằm trong tệp local runtime/features-private/demo-accounts.txt. Mở tệp ở máy để lấy tài khoản. Tệp này nằm ngoài Git.
-3. Nếu site đang tắt, chạy PowerShell tại thư mục dự án với lệnh dưới đây. Script runtime này dành cho bản kiểm thử hiện tại trên máy, dùng PHP/MariaDB XAMPP và database riêng. Database kiểm thử nằm trong thư mục Temp, đường dẫn được ghi tại runtime/audit-db-path.txt. Nếu thư mục đó đã bị dọn, cần cài lại môi trường kiểm thử cô lập.
-4. Chuẩn bị một PDF giả lập dưới 5 MB, hai cửa sổ trình duyệt với phiên đăng nhập độc lập, chẳng hạn cửa sổ thường cho Admin và cửa sổ ẩn danh cho ứng viên.
-5. Ghi lại ID tin, ứng viên, CV, hồ sơ và lịch mà bạn tạo. Thêm dấu thời gian vào tên đăng nhập/email để tránh trùng với lượt test trước.
+| Môi trường | URL | Tệp tài khoản Admin |
+|---|---|---|
+| Nhóm cài bằng Docker theo README | http://localhost:8082/ | runtime/demo-accounts.txt |
+| Bản portable đang dùng trên máy bàn giao | http://localhost:18781/ | runtime/features-private/demo-accounts.txt |
 
-~~~powershell
-.\runtime\features-resume.ps1
-~~~
+1. Nhóm tải mới cài theo README trước. Khởi động lại Docker bằng lệnh docker compose up -d wordpress tại thư mục có compose.yaml.
+2. Mở trang /dang-nhap/ của đúng môi trường và lấy tài khoản Admin trong tệp tương ứng ở máy. Các mật khẩu được tạo riêng khi cài.
+3. Bản portable trên máy bàn giao có thể khởi động lại bằng .\runtime\features-resume.ps1 tại thư mục dự án. Script runtime này dành cho máy đó. Database portable nằm trong Temp, đường dẫn ghi tại runtime/audit-db-path.txt.
+4. Chuẩn bị PDF giả lập dưới 5 MB và hai cửa sổ trình duyệt có phiên đăng nhập độc lập, ví dụ cửa sổ thường cho Admin và ẩn danh cho ứng viên.
+5. Ghi lại ID các tin, ứng viên, CV, hồ sơ và lịch bạn tạo. Thêm dấu thời gian vào tên đăng nhập/email để tránh trùng.
+6. Khi đọc các đường dẫn local cũ bên dưới, dùng URL đang chạy trên máy của bạn. Các ca kiểm tra thực hiện giống nhau trên hai môi trường.
 
-Sau lượt kiểm tra tự động, database hiện chỉ còn Admin cài đặt. Bạn sẽ tạo dữ liệu thử qua giao diện theo các bước tiếp theo. Các đường dẫn runtime dành riêng cho máy này. Khi ghép branch vào bản WordPress khác, dùng URL và tài khoản của bản đó.
+Các bảng nghiệp vụ có thể trống nếu cài với -SkipDemo. Bạn tạo dữ liệu thử qua giao diện theo các bước tiếp theo.
 
 ## 1. Tạo công ty và danh mục song ngữ
 
@@ -148,10 +150,14 @@ Với mỗi ca, ghi PASS/FAIL, URL, tên/ID dữ liệu và kết quả thực t
 
 Dữ liệu bạn tạo khi test tay là bộ MANUAL của bạn. Chỉ dọn đúng các tin/danh mục/công ty/tài khoản đó sau khi đã ghi kết quả. Tin có thể đưa vào thùng rác qua Admin. Hồ sơ/lịch vẫn giữ lịch sử theo hành vi hiện tại của hệ thống.
 
-Có thể chạy lại bộ kiểm tra tự động cho ba chức năng mới tại thư mục dự án. Script chỉ chạy với WordPress ở môi trường local, tự tạo fixture ngẫu nhiên và dọn fixture của chính lượt đó.
+Có thể chạy lại bộ kiểm tra tự động tại thư mục dự án. Script tự tạo fixture ngẫu nhiên và dọn fixture của chính lượt đó.
 
 ~~~powershell
-& 'C:\xampp\php\php.exe' -d extension=zip tests/recruitment-features.php
+# Bản Docker
+.\scripts\test.ps1 -RecruitmentOnly
+
+# Bản portable local đã cài
+.\scripts\test.ps1 -Local -RecruitmentOnly -Php 'C:\xampp\php\php.exe'
 ~~~
 
-Bộ kiểm tra này dùng runtime/wordpress/wp-load.php mặc định. Có thể đặt biến môi trường TJ_TEST_WP_LOAD trỏ tới wp-load.php của một bản WordPress local khác. Site và database của bản đó phải đang chạy. Việc chạy liên tiếp nhiều lượt đăng nhập có thể chạm giới hạn đăng nhập 20 lần/15 phút của hệ thống.
+Biến TJ_TEST_WP_LOAD cho phép chọn wp-load.php của một bản WordPress local khác khi chạy PHP trên host. Site và database phải đang chạy. Chạy quá nhiều lượt đăng nhập liên tiếp có thể chạm giới hạn 20 lần/15 phút của hệ thống.

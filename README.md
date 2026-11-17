@@ -1,78 +1,78 @@
-# TechJob AI — WordPress
+# TechJob AI — Final project
 
-Website tuyển dụng IT và luyện phỏng vấn, chuyển từ giao diện/luồng ATS Mini MVC. Hai vai trò: **Ứng viên** và **Admin**. Khách chưa đăng nhập chỉ được xem nội dung công khai.
+Website tuyển dụng IT trên WordPress, PHP và MariaDB với hai vai trò Admin và ứng viên.
 
-## Mở bản đang chạy trên máy này
+## Nhóm tải và chạy
 
-- Website Docker: http://localhost:8081/
-- Đăng nhập Docker: http://localhost:8081/dang-nhap/
-- Quản trị nghiệp vụ Docker: http://localhost:8081/quan-tri/
-- Tài khoản và mật khẩu Docker: `runtime/demo-accounts.txt` (không đưa vào Git).
+Cần Git, PowerShell 7 và Docker Desktop đang chạy Linux engine. Tại terminal PowerShell 7, chạy các lệnh sau.
 
-Docker Desktop hiện hoạt động bình thường. Bản Docker đã cài và kiểm tra trên máy: WordPress 7.1.4, PHP 8.3.36, MariaDB 11.4.13, Docker Engine 29.6.2. Cổng 8081 được chọn để giữ nguyên bản **PHP/MariaDB portable tại 8080** và dữ liệu cũ của bản này. Hai bản có database, CV và tài khoản demo riêng; không tự đồng bộ dữ liệu.
+~~~powershell
+git clone --branch final-project https://github.com/HieuIPO/techjob-ai-wordpress.git
+cd techjob-ai-wordpress
+.\scripts\setup.ps1 -ProjectName techjob-final-project -Port 8082 -SkipDemo
+~~~
 
-```powershell
+Mở http://localhost:8082/. Đăng nhập tại http://localhost:8082/dang-nhap/ và quản trị nghiệp vụ tại http://localhost:8082/quan-tri/.
+
+Setup tự tạo WordPress, database và tài khoản Admin mới. Tài khoản/mật khẩu được lưu riêng ở runtime/demo-accounts.txt trên máy vừa cài. Với -SkipDemo, bạn bắt đầu bằng database tuyển dụng trống rồi tạo công ty, danh mục, tin và ứng viên theo [hướng dẫn test tay](docs/MANUAL-TEST-20261117.md). Nếu chủ môi trường muốn bộ dữ liệu demo trên máy mới, bỏ -SkipDemo trong lần cài đầu.
+
+Project name và cổng có thể đổi để chạy song song các bản khác. Chọn giá trị riêng trước khi cài. Hướng dẫn chi tiết và cách xử lý lỗi nằm ở [bàn giao cho nhóm](docs/FINAL-PROJECT.md).
+
+## Chạy kiểm tra tuyển dụng
+
+~~~powershell
+.\scripts\test.ps1 -RecruitmentOnly
+~~~
+
+Lệnh trên chạy policy và hai suite HTTP, tự tạo tài khoản, tin, CV giả lập và dọn đúng fixture của lượt chạy. Các bài kiểm tra bao phủ tìm việc, đăng ký/đăng nhập, CV, ứng tuyển, xử lý hồ sơ, lịch phỏng vấn, nội dung song ngữ, phiếu đánh giá và báo cáo/CSV.
+
+Với bản portable đã được cài trên Windows, có thể truyền -Local và đường dẫn PHP. Biến TJ_TEST_WP_LOAD cho phép chọn wp-load.php của bản kiểm thử local.
+
+~~~powershell
+.\scripts\test.ps1 -Local -RecruitmentOnly -Php 'C:\xampp\php\php.exe'
+~~~
+
+[Hướng dẫn test tay từng chức năng](docs/MANUAL-TEST-20261117.md) có các ca PASS/FAIL và số liệu mẫu để nhóm tự đối chiếu.
+
+## Các chức năng
+
+- Tìm theo từ khóa/công ty/kỹ năng, lọc nhóm nghề, vị trí, địa điểm, loại hình và lương, phân trang.
+- Admin quản lý công ty, tin Nháp/Đang tuyển/Đã đóng, danh mục và ứng viên.
+- Hồ sơ ứng viên, CV riêng tư, lưu việc, ứng tuyển và lịch sử trạng thái.
+- Admin tải CV, ghi chú nội bộ, cập nhật hồ sơ, tạo/sửa/hủy lịch và tải ICS.
+- Nội dung công ty/tin/danh mục Việt/Anh, fallback về tiếng Việt khi bản dịch trống.
+- Phiếu đánh giá từng lịch với ba tiêu chí chấm 1–5, đề xuất và nhận xét nội bộ, kiểm tra phiên bản khi hai tab sửa cùng lúc.
+- Báo cáo theo ngày nộp và tin tuyển dụng, đếm ứng viên duy nhất, phân bố trạng thái và xuất CSV.
+- Luyện phỏng vấn demo/Gemini chạy ở backend.
+
+## Khởi động lại và dừng
+
+~~~powershell
 docker compose up -d wordpress
-./scripts/test.ps1
 docker compose stop
-```
+~~~
 
-Phương án portable dự phòng ở 8080 dùng tài khoản trong `runtime/private/demo-accounts.txt`:
+Database, WordPress runtime và CV của bản Docker nằm trong volume riêng của project. Source và cấu hình mẫu nằm trong Git. Cấu hình máy, mật khẩu, database và CV được tạo trong quá trình cài ở máy nhận.
 
-```powershell
-# Chạy lại sau khi tắt máy
-./scripts/start-local.ps1
+## Đóng gói theme/plugin
 
-# Dừng sạch web và database
-./scripts/stop-local.ps1
+~~~powershell
+.\scripts\package.ps1
+~~~
 
-# Kiểm tra mã PHP, policy, nghiệp vụ và HTTP
-./scripts/test.ps1 -Local
+Kết quả trong artifacts/ gồm techjob-ai-theme.zip và techjob-ai-core.zip. Khi cài lên WordPress khác, cấu hình TECHJOB_PRIVATE_DIR trỏ tới thư mục có quyền ghi ngoài webroot.
 
-# Sao lưu và kiểm chứng phục hồi vào database tạm
-./scripts/backup.ps1 -Local
-& 'C:\xampp\php\php.exe' scripts/verify-backup-local.php
-```
+## Cấu trúc
 
-Nếu PHP ở nơi khác, truyền `-Php 'đường-dẫn-php.exe'` vào các script PowerShell hỗ trợ tham số này. Bản portable đã chuẩn bị trên máy này; để cài ở máy mới, dùng Docker bên dưới.
+| Thư mục | Nội dung |
+|---|---|
+| wp-content/plugins/techjob-ai-core/ | Route, nghiệp vụ, template, CSS/JS và tích hợp AI |
+| wp-content/themes/techjob-ai/ | Theme WordPress |
+| scripts/ | Cài đặt, chạy, kiểm tra, sao lưu và đóng gói |
+| tests/ | Policy, HTTP E2E và kiểm tra chức năng |
+| docs/ | Hướng dẫn test tay, kết quả và tài liệu bàn giao |
 
-## Cài mới bằng Docker
-
-Cần Docker Desktop với Linux engine đang hoạt động. Chạy tại thư mục dự án bằng PowerShell 7:
-
-```powershell
-./scripts/setup.ps1 -Port 8081
-./scripts/test.ps1
-docker compose stop
-docker compose up -d wordpress
-```
-
-Setup tự tạo mật khẩu database, cài WordPress, kích hoạt theme/plugin, tạo tài khoản và dữ liệu demo. Chạy lại không tạo trùng dữ liệu. Mật khẩu tài khoản được sao chép vào `runtime/demo-accounts.txt` ở host; bản trong container nằm ngoài webroot.
-
-Docker chỉ công khai cổng web trên `127.0.0.1`; database không xuất cổng. Không chạy bản portable và Docker cùng một cổng. `setup.ps1 -Port ...` cập nhật cổng trong `.env`; khi bỏ qua tham số, script dùng cổng đã lưu.
-
-Đã chạy cài mới, chạy lại setup không tạo trùng dữ liệu, khởi động lại container và kiểm tra dữ liệu còn nguyên. Trong Docker đã qua 12 policy checks và 40 integration checks; các trang chính trả HTTP 200.
-
-## Các chức năng đã chuyển
-
-- Giao diện xanh lá phía công khai/ứng viên và xanh dương phía quản trị từ CSS ATS local.
-- Tìm kiếm từ khóa/công ty; lọc kỹ năng, nhóm nghề, lương, địa điểm, loại hình; phân trang, tin nổi bật và công ty.
-- Đăng ký/đăng nhập, profile, CV riêng tư, lưu việc, ứng tuyển, lịch sử trạng thái và thông báo.
-- Admin: dashboard dữ liệu thực, CRUD tin/công ty/danh mục, xem hồ sơ/CV, ghi chú nội bộ, cập nhật trạng thái, khóa/mở ứng viên.
-- Lịch phỏng vấn: tạo/sửa/hủy, kết quả và đối soát trạng thái, tải lịch `.ics`.
-- Giao diện Việt/Anh và dữ liệu mẫu hai ngôn ngữ.
-- Widget 5 câu phỏng vấn, demo ghi nhãn và tích hợp Gemini phía máy chủ.
-
-Bộ dữ liệu mẫu tùy chọn cho môi trường cài mới: 6 công ty hư cấu, 24 việc làm IT, 8 ứng viên cùng CV giả lập, 16 hồ sơ và lịch mẫu. Không nhập tài khoản/CV cá nhân từ ATS cũ.
-
-**Trạng thái hiện tại (04/11/2026):** dữ liệu mẫu và tài khoản ứng viên đã được dọn ở cả Docker lẫn portable theo yêu cầu của chủ dự án. Không chạy seed hoặc khôi phục backup để làm dữ liệu xuất hiện lại. Xem [gói bàn giao](docs/HANDOFF-20261104.md) để biết chức năng, khoảng trống, thay đổi chưa commit và giới hạn kiểm chứng.
-
-## Bổ sung tuyển dụng ngày 17/11/2026
-
-- Admin nhập tiêu đề, mô tả và yêu cầu Việt/Anh cho tin, tên Việt/Anh cho kỹ năng và danh mục. Bản dịch trống dùng nội dung tiếng Việt.
-- **Quản trị → Báo cáo tuyển dụng** lọc theo ngày nộp và tin tuyển dụng, thống kê trạng thái, đếm ứng viên duy nhất và xuất CSV.
-- **Lịch phỏng vấn → Chỉnh sửa / đánh giá** có phiếu ba tiêu chí chấm 1–5, đề xuất và nhận xét nội bộ. Schema 3 tự bổ sung bảng đánh giá khi plugin khởi tạo.
-- [Hướng dẫn test tay từng chức năng](docs/MANUAL-TEST-20261117.md) và [kết quả kiểm tra](docs/FEATURES-TEST-20261117.md).
+Xem [kết quả rà soát cuối](docs/FINAL-TEST-RESULTS.md), [gói bàn giao trước](docs/HANDOFF-20261104.md) và [ánh xạ ATS → WordPress](docs/MIGRATION.md).
 
 ## Gemini
 
@@ -88,28 +88,3 @@ Portable: dừng rồi chạy lại `stop-local.ps1` / `start-local.ps1` để n
 Không có khóa sẽ chạy bộ câu hỏi demo, ghi rõ đó là hướng dẫn cố định, không phải AI chấm bài. Mỗi tài khoản giới hạn 10 yêu cầu/phút và 100/ngày. Phiên hết hạn sau 24 giờ. Nội dung CV không tự gửi cho Gemini.
 
 **Chưa nghiệm thu Gemini thật:** chưa có khóa hợp lệ trong môi trường. Demo đã được kiểm tra trên trình duyệt và qua REST/HTTP.
-
-## Đóng gói và cấu trúc
-
-```powershell
-./scripts/package.ps1
-```
-
-Hai ZIP cài được trong WordPress nằm ở `artifacts/`: `techjob-ai-theme.zip` và `techjob-ai-core.zip`. Khi cài lên WordPress khác, cấu hình hằng `TECHJOB_PRIVATE_DIR` trỏ tới thư mục có quyền ghi **ngoài thư mục web công khai**; dùng script seed qua WP-CLI nếu muốn dữ liệu mẫu.
-
-```text
-wp-content/themes/techjob-ai/          Theme WordPress
-wp-content/plugins/techjob-ai-core/    Nghiệp vụ, giao diện, CSS ATS, REST AI
-scripts/                              Cài đặt, chạy, test, sao lưu, đóng gói
-tests/                                Policy, WordPress integration, HTTP
-docs/                                 Đặc tả, ánh xạ và kết quả kiểm chứng
-runtime/                              WordPress/PHP runtime data và bí mật local (bỏ qua Git)
-backups/                              SQL và CV riêng tư (bỏ qua Git)
-reference/                            Checkout ATS tham chiếu (bỏ qua Git)
-```
-
-Xem `docs/IMPLEMENTATION.md`, `docs/MIGRATION.md`, `docs/TEST-RESULTS.md`, `docs/walkthrough.md`. Ảnh ATS cũ ở `docs/reference/screenshots/`; ảnh WordPress mới ở `docs/progress/`.
-
-## Giới hạn bản đầu
-
-Phục vụ chạy đồ án local; chưa triển khai hosting, email/SMS, cổng doanh nghiệp hoặc dịch nội dung tự động. Tài khoản dùng avatar chữ cái. Danh sách ứng viên/lịch/thông báo giới hạn 100 bản ghi trong bản demo. Tìm kiếm song ngữ hiện phục vụ tập dữ liệu nhỏ. Không có cam kết kiểm thử tải/production.
