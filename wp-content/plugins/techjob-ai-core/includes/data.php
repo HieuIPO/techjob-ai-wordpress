@@ -2,7 +2,7 @@
 defined('ABSPATH') || exit;
 function tj_table(string $name): string {
     global $wpdb;
-    if (!in_array($name, ['files', 'applications', 'history', 'interviews', 'saved', 'notifications', 'audit', 'ai_sessions', 'limits'], true)) { throw new InvalidArgumentException('Unknown table'); }
+    if (!in_array($name, ['files', 'applications', 'history', 'interviews', 'evaluations', 'saved', 'notifications', 'audit', 'ai_sessions', 'limits'], true)) { throw new InvalidArgumentException('Unknown table'); }
     return $wpdb->prefix . 'tj_' . $name;
 }
 function tj_now(): string { return current_time('mysql', true); }

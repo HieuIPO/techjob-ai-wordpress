@@ -33,7 +33,7 @@
   document.querySelectorAll('.tj-confirm').forEach(form => form.addEventListener('submit', event => {
     if (!window.confirm(en ? 'Confirm this action?' : 'Bạn có chắc muốn thực hiện thao tác này?')) event.preventDefault();
   }));
-  document.querySelectorAll('form[method="post"]:not(.tj-confirm)').forEach(form => form.addEventListener('submit', () => {
+  document.querySelectorAll('form[method="post"]:not(.tj-confirm):not(.tj-download)').forEach(form => form.addEventListener('submit', () => {
     if (form.checkValidity()) form.querySelectorAll('[type="submit"]').forEach(button => { button.disabled = true; });
   }));
   document.querySelectorAll('[data-tj-tabs]').forEach(tabSet => {

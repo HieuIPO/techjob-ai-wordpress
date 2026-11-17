@@ -67,6 +67,13 @@ Bộ dữ liệu mẫu tùy chọn cho môi trường cài mới: 6 công ty hư
 
 **Trạng thái hiện tại (04/11/2026):** dữ liệu mẫu và tài khoản ứng viên đã được dọn ở cả Docker lẫn portable theo yêu cầu của chủ dự án. Không chạy seed hoặc khôi phục backup để làm dữ liệu xuất hiện lại. Xem [gói bàn giao](docs/HANDOFF-20261104.md) để biết chức năng, khoảng trống, thay đổi chưa commit và giới hạn kiểm chứng.
 
+## Bổ sung tuyển dụng ngày 17/11/2026
+
+- Admin nhập tiêu đề, mô tả và yêu cầu Việt/Anh cho tin, tên Việt/Anh cho kỹ năng và danh mục. Bản dịch trống dùng nội dung tiếng Việt.
+- **Quản trị → Báo cáo tuyển dụng** lọc theo ngày nộp và tin tuyển dụng, thống kê trạng thái, đếm ứng viên duy nhất và xuất CSV.
+- **Lịch phỏng vấn → Chỉnh sửa / đánh giá** có phiếu ba tiêu chí chấm 1–5, đề xuất và nhận xét nội bộ. Schema 3 tự bổ sung bảng đánh giá khi plugin khởi tạo.
+- [Hướng dẫn test tay từng chức năng](docs/MANUAL-TEST-20261117.md) và [kết quả kiểm tra](docs/FEATURES-TEST-20261117.md).
+
 ## Gemini
 
 Đặt khóa trong `.env` trên máy chủ, **không gửi khóa qua chat**:

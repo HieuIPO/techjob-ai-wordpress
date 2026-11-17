@@ -11,7 +11,7 @@ function tj_handle_action(): void {
     if (!wp_verify_nonce(tj_post('_tj_nonce'), 'tj_' . $action)) { wp_die(tj_t('Phiên đã hết hạn. Tải lại trang rồi thử lại.', 'Session expired. Reload and try again.'), '', ['response' => 403]); }
     if (in_array($action, ['login', 'register'], true)) { tj_auth_action($action); }
     if (!is_user_logged_in()) { wp_safe_redirect(tj_url('dang-nhap')); exit; }
-    $admin_actions = ['save_job', 'delete_job', 'save_company', 'delete_company', 'save_term', 'delete_term', 'status', 'save_interview', 'cancel_interview', 'save_user', 'save_settings'];
+    $admin_actions = ['save_job', 'delete_job', 'save_company', 'delete_company', 'save_term', 'delete_term', 'status', 'save_interview', 'cancel_interview', 'save_evaluation', 'export_report', 'save_user', 'save_settings'];
     if (in_array($action, $admin_actions, true) && !tj_admin()) { wp_die('Forbidden', '', ['response' => 403]); }
     if (in_array($action, ['apply', 'save_job_toggle', 'upload_cv'], true) && !tj_candidate()) { wp_die('Candidates only', '', ['response' => 403]); }
     global $wpdb;
@@ -47,6 +47,8 @@ function tj_handle_action(): void {
             if ($wpdb->query('COMMIT') === false) { $wpdb->query('ROLLBACK'); tj_back('quan-tri/ho-so?application=' . $id, new WP_Error('database', tj_t('Không thể hoàn tất cập nhật hồ sơ.', 'Could not complete the application update.'))); }
             tj_back('quan-tri/ho-so?application=' . $id);
         case 'save_interview': tj_back('quan-tri/lich-phong-van', tj_save_interview(wp_unslash($_POST)));
+        case 'save_evaluation': tj_back('quan-tri/lich-phong-van?edit=' . absint(tj_post('interview_id')), tj_save_evaluation(wp_unslash($_POST)));
+        case 'export_report': tj_export_report(wp_unslash($_POST));
         case 'cancel_interview': tj_back('quan-tri/lich-phong-van', tj_cancel_interview(absint(tj_post('id'))));
         case 'read_notifications':
             $wpdb->update(tj_table('notifications'), ['is_read' => 1], ['user_id' => get_current_user_id()]);

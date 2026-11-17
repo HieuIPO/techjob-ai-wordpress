@@ -9,12 +9,12 @@
 defined('ABSPATH') || exit;
 define('TJ_DIR', plugin_dir_path(__FILE__));
 define('TJ_URL', plugin_dir_url(__FILE__));
-foreach (['policy', 'i18n', 'schema', 'data', 'files', 'applications', 'actions', 'ai', 'routes', 'view'] as $module) {
+foreach (['policy', 'i18n', 'schema', 'data', 'files', 'applications', 'evaluations', 'reports', 'actions', 'ai', 'routes', 'view'] as $module) {
     require_once TJ_DIR . 'includes/' . $module . '.php';
 }
 register_activation_hook(__FILE__, 'tj_activate');
 add_action('init', 'tj_register_content');
-add_action('init', function () { if ((int)get_option('tj_schema_version') < 2) { tj_activate(); } }, 20);
+add_action('init', function () { if ((int)get_option('tj_schema_version') < 3) { tj_activate(); } }, 20);
 add_action('init', 'tj_register_routes');
 add_action('template_redirect', 'tj_route_request', 1);
 add_action('admin_post_tj_action', 'tj_handle_action');

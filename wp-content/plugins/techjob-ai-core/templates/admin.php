@@ -6,15 +6,22 @@ case '': require TJ_DIR . 'templates/admin-dashboard.php'; break;
 case 'viec-lam': require TJ_DIR . 'templates/admin-jobs.php'; break;
 case 'cong-ty': require TJ_DIR . 'templates/admin-companies.php'; break;
 case 'danh-muc': require TJ_DIR . 'templates/admin-catalog.php'; break;
+case 'bao-cao': require TJ_DIR . 'templates/admin-reports.php'; break;
 case 'ho-so': if (!empty($_GET['application'])) { tj_application_detail(absint($_GET['application']), true); } else { tj_application_list(true); } break;
 case 'lich-phong-van':
     if (isset($_GET['edit']) || isset($_GET['application']) || isset($_GET['new'])) {
         $interview = isset($_GET['edit']) ? tj_row('interviews', absint($_GET['edit'])) : null;
+        if (isset($_GET['edit']) && !$interview) { tj_empty(tj_t('Không tìm thấy lịch phỏng vấn.', 'Interview not found.')); break; }
+        if ($interview && $interview['cancelled']) {
+            require TJ_DIR . 'templates/admin-evaluation.php';
+            break;
+        }
         $apps = $wpdb->get_results('SELECT * FROM ' . tj_table('applications') . " WHERE status NOT IN ('passed','rejected') ORDER BY id DESC LIMIT 500", ARRAY_A);
         $options = [];
         foreach ($apps as $app) { $options[$app['id']] = '#' . $app['id'] . ' · ' . $app['candidate_name'] . ' · ' . tj_title((int)$app['job_id']); }
         if ($interview) { $app = tj_row('applications', (int)$interview['application_id']); if ($app) { $options[$app['id']] = '#' . $app['id'] . ' · ' . $app['candidate_name']; } }
         echo '<section class="tj-panel">'; tj_form_start('save_interview', 'tj-stack'); tj_hidden('id', $interview['id'] ?? 0); tj_select('application_id', tj_t('Hồ sơ ứng tuyển', 'Application'), $options, $interview['application_id'] ?? absint($_GET['application'] ?? 0)); tj_input('scheduled_at', tj_t('Thời gian (giờ Việt Nam)', 'Date & time (Vietnam)'), $interview ? wp_date('Y-m-d\TH:i', strtotime($interview['scheduled_at'] . ' UTC')) : wp_date('Y-m-d\T09:00', time() + DAY_IN_SECONDS), 'datetime-local', true); tj_input('location', tj_t('Địa điểm / liên kết phỏng vấn', 'Location / meeting link'), $interview['location'] ?? '', 'text', true); tj_select('result', tj_t('Kết quả', 'Result'), $interview ? tj_results() : ['pending' => tj_results()['pending']], $interview['result'] ?? 'pending'); tj_textarea('note', tj_t('Ghi chú nội bộ', 'Internal note'), $interview['note'] ?? ''); tj_button(); echo '</form></section>';
+        if ($interview) { require TJ_DIR . 'templates/admin-evaluation.php'; }
     } else { ?><p><a class="tj-button" href="<?php echo esc_url(tj_url('quan-tri/lich-phong-van', ['new' => 1])); ?>">+ <?php tj_e('Tạo lịch phỏng vấn', 'Schedule interview'); ?></a></p><?php tj_interview_list(true); } break;
 case 'ung-vien': ?>
     <div class="tj-table-wrap"><table class="tj-table"><thead><tr><th><?php tj_e('Họ tên', 'Name'); ?></th><th>Email</th><th><?php tj_e('Điện thoại', 'Phone'); ?></th><th><?php tj_e('Trạng thái', 'Access'); ?></th><th></th></tr></thead><tbody><?php foreach (get_users(['role' => 'tj_candidate', 'number' => 100, 'orderby' => 'registered', 'order' => 'DESC']) as $user) { ?><tr><td><?php echo esc_html($user->display_name); ?></td><td><?php echo esc_html($user->user_email); ?></td><td><?php echo esc_html(get_user_meta($user->ID, 'tj_phone', true)); ?></td><td><?php echo esc_html(get_user_meta($user->ID, 'tj_disabled', true) ? tj_t('Đã khóa', 'Disabled') : tj_t('Hoạt động', 'Active')); ?></td><td><?php tj_form_start('save_user', 'tj-inline tj-confirm'); tj_hidden('id', $user->ID); tj_hidden('disabled', get_user_meta($user->ID, 'tj_disabled', true) ? 0 : 1); tj_button(get_user_meta($user->ID, 'tj_disabled', true) ? 'Mở khóa' : 'Khóa tài khoản', get_user_meta($user->ID, 'tj_disabled', true) ? 'Enable' : 'Disable', 'secondary'); echo '</form>'; ?></td></tr><?php } ?></tbody></table></div><?php break;

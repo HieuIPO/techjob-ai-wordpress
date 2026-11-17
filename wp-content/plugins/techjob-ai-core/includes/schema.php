@@ -18,6 +18,7 @@ function tj_activate(): void {
         'history' => "id bigint unsigned NOT NULL AUTO_INCREMENT, application_id bigint unsigned NOT NULL, actor_id bigint unsigned NOT NULL, old_status varchar(30) NOT NULL, new_status varchar(30) NOT NULL, note text NOT NULL, created_at datetime NOT NULL, PRIMARY KEY  (id), KEY application_id (application_id)",
         'interviews' => "id bigint unsigned NOT NULL AUTO_INCREMENT, application_id bigint unsigned NOT NULL, interviewer_id bigint unsigned NOT NULL, scheduled_at datetime NOT NULL, location varchar(255) NOT NULL, result varchar(30) NOT NULL DEFAULT 'pending', note text NOT NULL, cancelled tinyint NOT NULL DEFAULT 0, active_slot tinyint DEFAULT 1, created_at datetime NOT NULL, PRIMARY KEY  (id), UNIQUE KEY active_application_time (application_id,scheduled_at,active_slot), KEY scheduled_at (scheduled_at)",
         'saved' => "id bigint unsigned NOT NULL AUTO_INCREMENT, user_id bigint unsigned NOT NULL, job_id bigint unsigned NOT NULL, created_at datetime NOT NULL, PRIMARY KEY  (id), UNIQUE KEY user_job (user_id,job_id)",
+        'evaluations' => "id bigint unsigned NOT NULL AUTO_INCREMENT, interview_id bigint unsigned NOT NULL, reviewer_id bigint unsigned NOT NULL, technical tinyint unsigned NOT NULL, problem_solving tinyint unsigned NOT NULL, communication tinyint unsigned NOT NULL, recommendation varchar(30) NOT NULL, note text NOT NULL, revision int unsigned NOT NULL DEFAULT 1, updated_at datetime NOT NULL, PRIMARY KEY  (id), UNIQUE KEY interview_id (interview_id)",
         'notifications' => "id bigint unsigned NOT NULL AUTO_INCREMENT, user_id bigint unsigned NOT NULL, message text NOT NULL, message_en text NOT NULL, target varchar(255) NOT NULL, is_read tinyint NOT NULL DEFAULT 0, created_at datetime NOT NULL, PRIMARY KEY  (id), KEY recipient (user_id,is_read)",
         'audit' => "id bigint unsigned NOT NULL AUTO_INCREMENT, actor_id bigint unsigned NOT NULL, action varchar(60) NOT NULL, entity_id bigint unsigned NOT NULL, created_at datetime NOT NULL, PRIMARY KEY  (id)",
         'ai_sessions' => "id bigint unsigned NOT NULL AUTO_INCREMENT, user_id bigint unsigned NOT NULL, mode varchar(20) NOT NULL, skill varchar(80) NOT NULL, level varchar(40) NOT NULL, language varchar(5) NOT NULL, messages longtext NOT NULL, step tinyint NOT NULL DEFAULT 0, created_at datetime NOT NULL, updated_at datetime NOT NULL, PRIMARY KEY  (id), KEY user_id (user_id)",
@@ -33,5 +34,5 @@ function tj_activate(): void {
     tj_register_content();
     tj_register_routes();
     flush_rewrite_rules();
-    update_option('tj_schema_version', 2);
+    update_option('tj_schema_version', 3);
 }
