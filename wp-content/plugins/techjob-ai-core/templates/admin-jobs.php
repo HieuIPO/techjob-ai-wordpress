@@ -17,7 +17,29 @@ if (isset($_GET['edit'])) {
     tj_select('status', tj_t('Trạng thái', 'Status'), ['draft' => tj_t('Nháp', 'Draft'), 'publish' => tj_t('Đang tuyển', 'Published'), 'private' => tj_t('Đã đóng', 'Closed')], $job->post_status ?? 'draft');
     tj_input('salary_min', tj_t('Lương tối thiểu (VND/tháng)', 'Minimum salary (VND/month)'), tj_meta($id, 'salary_min', 0), 'number'); tj_input('salary_max', tj_t('Lương tối đa (VND/tháng)', 'Maximum salary (VND/month)'), tj_meta($id, 'salary_max', 0), 'number');
     tj_input('deadline', tj_t('Hạn nộp', 'Deadline'), tj_meta($id, 'deadline'), 'date'); tj_select('job_type', tj_t('Loại hình làm việc', 'Job type'), ['full-time' => 'Full-time', 'part-time' => 'Part-time', 'internship' => 'Internship', 'remote' => 'Remote'], tj_meta($id, 'job_type', 'full-time'));
-    foreach (['skill' => tj_t('Kỹ năng (giữ Ctrl để chọn nhiều)', 'Skills (Ctrl to select multiple)'), 'category' => tj_t('Nhóm nghề', 'Category'), 'position' => tj_t('Vị trí', 'Position'), 'location' => tj_t('Địa điểm', 'Location')] as $tax => $label) { $selected = $id ? wp_get_post_terms($id, 'tj_' . $tax, ['fields' => 'ids']) : []; tj_select($tax, $label, tj_term_options($tax, false), is_wp_error($selected) ? [] : $selected, $tax === 'skill'); }
+    ?></div><div class="tj-form-grid tj-job-taxonomies"><?php
+    $selected_skills = $id ? wp_get_post_terms($id, 'tj_skill', ['fields' => 'ids']) : [];
+    $selected_skills = is_wp_error($selected_skills) ? [] : $selected_skills;
+    $skills = tj_term_options('skill', false);
+    $skill_names = array_intersect_key($skills, array_flip($selected_skills));
+    $empty_label = tj_t('Chọn kỹ năng', 'Select skills');
+    ?>
+    <div class="tj-field">
+        <span id="tj-job-skills-label"><?php tj_e('Kỹ năng', 'Skills'); ?></span>
+        <details class="tj-skill-picker" data-empty-label="<?php echo esc_attr($empty_label); ?>">
+            <summary aria-labelledby="tj-job-skills-label tj-job-skills-value"><span id="tj-job-skills-value" class="tj-skill-value"><?php echo esc_html($skill_names ? implode(', ', $skill_names) : $empty_label); ?></span></summary>
+            <div class="tj-skill-options">
+                <?php if (!$skills) { ?><p class="tj-muted"><?php tj_e('Thêm kỹ năng trong mục Danh mục & kỹ năng.', 'Add skills in Categories & skills.'); ?></p><?php } ?>
+                <?php foreach ($skills as $skill_id => $skill_name) { ?>
+                    <label class="tj-skill-option"><input type="checkbox" name="skill[]" value="<?php echo (int)$skill_id; ?>" <?php checked(in_array((int)$skill_id, $selected_skills, true)); ?>><span><?php echo esc_html($skill_name); ?></span></label>
+                <?php } ?>
+            </div>
+        </details>
+    </div>
+    <?php foreach (['category' => tj_t('Nhóm nghề', 'Category'), 'position' => tj_t('Vị trí', 'Position'), 'location' => tj_t('Địa điểm', 'Location')] as $tax => $label) {
+        $selected = $id ? wp_get_post_terms($id, 'tj_' . $tax, ['fields' => 'ids']) : [];
+        tj_select($tax, $label, tj_term_options($tax, false), is_wp_error($selected) ? [] : $selected);
+    }
     ?></div><div class="tj-row"><label class="tj-check"><input type="checkbox" name="negotiable" value="1" <?php checked(tj_meta($id, 'negotiable')); ?>> <?php tj_e('Lương thỏa thuận', 'Negotiable salary'); ?></label><label class="tj-check"><input type="checkbox" name="featured" value="1" <?php checked(tj_meta($id, 'featured')); ?>> <?php tj_e('Tin nổi bật', 'Featured'); ?></label></div>
     <p class="tj-muted"><?php tj_e('Để trống bản dịch để hiển thị nội dung tiếng Việt.', 'Leave translations empty to display the Vietnamese content.'); ?></p>
     <div class="tj-form-grid"><?php

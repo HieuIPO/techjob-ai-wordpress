@@ -30,6 +30,20 @@
     profileLinks.hidden = !profileLinks.hidden;
     profileToggle.setAttribute('aria-expanded', String(!profileLinks.hidden));
   });
+  document.querySelectorAll('.tj-skill-picker').forEach(picker => {
+    const value = picker.querySelector('.tj-skill-value');
+    picker.addEventListener('change', () => {
+      const names = Array.from(picker.querySelectorAll('input:checked'), input => input.closest('label').querySelector('span').textContent.trim());
+      value.textContent = names.join(', ') || picker.dataset.emptyLabel;
+      value.title = names.join(', ');
+    });
+    picker.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        picker.open = false;
+        picker.querySelector('summary').focus();
+      }
+    });
+  });
   document.querySelectorAll('.tj-confirm').forEach(form => form.addEventListener('submit', event => {
     if (!window.confirm(en ? 'Confirm this action?' : 'Bạn có chắc muốn thực hiện thao tác này?')) event.preventDefault();
   }));
