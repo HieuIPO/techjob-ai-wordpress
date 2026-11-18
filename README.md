@@ -7,7 +7,7 @@ Website tuyển dụng IT trên WordPress, PHP và MariaDB với hai vai trò Ad
 Cần Git, PowerShell 7 và Docker Desktop đang chạy Linux engine. Tại terminal PowerShell 7, chạy các lệnh sau.
 
 ~~~powershell
-git clone --branch final-project https://github.com/HieuIPO/techjob-ai-wordpress.git
+git clone https://github.com/HieuIPO/techjob-ai-wordpress.git
 cd techjob-ai-wordpress
 .\scripts\setup.ps1 -ProjectName techjob-final-project -Port 8082 -SkipDemo
 ~~~
