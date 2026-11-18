@@ -3,7 +3,7 @@ defined('ABSPATH') || exit;
 function tj_post(string $key, string $default = ''): string { return is_scalar($_POST[$key] ?? null) ? sanitize_text_field(wp_unslash($_POST[$key])) : $default; }
 function tj_back(string $path, $result = true): void {
     // WordPress reserves the error query variable and can unset it when matching a rewrite.
-    $args = is_wp_error($result) ? ['tj_error' => rawurlencode($result->get_error_message())] : ['notice' => rawurlencode(tj_t('Đã lưu thành công.', 'Saved successfully.'))];
+    $args = is_wp_error($result) ? ['tj_error' => $result->get_error_message()] : ['notice' => tj_t('Đã lưu thành công.', 'Saved successfully.')];
     wp_safe_redirect(tj_url($path, $args)); exit;
 }
 function tj_handle_action(): void {

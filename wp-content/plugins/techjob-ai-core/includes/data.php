@@ -49,7 +49,7 @@ function tj_jobs(array $filter = [], bool $admin = false): array {
             $searchable = [
                 $job->post_title, $job->post_content,
                 tj_meta($job->ID, 'title_en'), tj_meta($job->ID, 'description_en'),
-                $company ? get_the_title($company) : 'TechJob AI', tj_meta($company, 'title_en'),
+                tj_company_name($job->ID), $company ? tj_meta($company, 'title_en') : '',
             ];
             foreach (is_array($terms) ? $terms : [] as $term) {
                 $searchable[] = $term->name;
